@@ -1,0 +1,62 @@
+PODS:
+  - Alamofire (5.7.1)
+  - Flutter (1.0.0)
+  - fluttertoast (0.0.2):
+    - Flutter
+    - Toast
+  - shared_preferences_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
+  - Toast (4.0.0)
+  - twilio_chat_conversation (0.0.1):
+    - Alamofire (~> 5.0)
+    - Flutter
+    - TwilioConversationsClient (~> 4.0)
+  - TwilioCommonLib (2.0.2)
+  - TwilioConversationsClient (4.0.1):
+    - TwilioTwilsockLib (= 2.0.2)
+  - TwilioStateMachine (2.0.2)
+  - TwilioTwilsockLib (2.0.2):
+    - TwilioCommonLib (= 2.0.2)
+    - TwilioStateMachine (= 2.0.2)
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
+  - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
+  - twilio_chat_conversation (from `.symlinks/plugins/twilio_chat_conversation/ios`)
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - Toast
+    - TwilioCommonLib
+    - TwilioConversationsClient
+    - TwilioStateMachine
+    - TwilioTwilsockLib
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  fluttertoast:
+    :path: ".symlinks/plugins/fluttertoast/ios"
+  shared_preferences_foundation:
+    :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
+  twilio_chat_conversation:
+    :path: ".symlinks/plugins/twilio_chat_conversation/ios"
+
+SPEC CHECKSUMS:
+  Alamofire: 0123a34370cb170936ae79a8df46cc62b2edeb88
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  fluttertoast: 31b00dabfa7fb7bacd9e7dbee580d7a2ff4bf265
+  shared_preferences_foundation: b4c3b4cddf1c21f02770737f147a3f5da9d39695
+  Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
+  twilio_chat_conversation: 00e58208a528878b5759fba0f872cb7802ece184
+  TwilioCommonLib: cd0b6ced22d1a9a6fc9df813bd03aff113ceb91c
+  TwilioConversationsClient: 418e804e9ecc5d2e17a96522191e5f5709155711
+  TwilioStateMachine: 83d99bcb38d6133dd4f01f87464bd297f9f6c41b
+  TwilioTwilsockLib: 2ac549121dddaafdd24e36f3a44b2b14eff7f540
+
+PODFILE CHECKSUM: 90de0cbb31a3983b9c815e0a81b7da474a9ee7c4
+
+COCOAPODS: 1.15.2
