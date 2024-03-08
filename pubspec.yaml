@@ -28,4 +28,7 @@ flutter:
         pluginClass: TwilioChatConversationPlugin
       ios:
         pluginClass: TwilioChatConversationPlugin
+      web:
+        pluginClass: TwilioChatConversationPlugin
+        fileName: twilio_web.dart
 

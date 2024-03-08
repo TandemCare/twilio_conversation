@@ -1,0 +1,10 @@
+name: twilio_chat_conversation_platform_interface
+description: A common platform interface for the twilio_chat_conversation plugin.
+version: 0.0.1
+environment:
+  sdk: '>=3.3.1 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  plugin_platform_interface: ^2.1.7
