@@ -1,5 +1,7 @@
 import 'dart:async';
+
 import 'package:flutter/services.dart';
+
 import 'twilio_chat_conversation_platform_interface.dart';
 
 /// A class for managing Twilio Chat conversations and communication.
@@ -181,9 +183,19 @@ class TwilioChatConversation {
   }
 
   /// Updates the access token used for communication.
-  Future<Map?> updateAccessToken({required String accessToken}) {
+  Future<Map?> updateAccessToken({
+    required String accessToken,
+  }) {
     return TwilioChatConversationPlatform.instance
         .updateAccessToken(accessToken: accessToken);
+  }
+
+  Future<String?> sendTypingIndicator(String conversationSid) async {
+    final String? result =
+        await TwilioChatConversationPlatform.instance.sendTypingIndicator(
+      conversationSid,
+    );
+    return result;
   }
 
   /// Stream for receiving token status changes.

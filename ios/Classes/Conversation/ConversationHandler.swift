@@ -201,6 +201,18 @@ class ConversationsHandler: NSObject, TwilioConversationsClientDelegate {
             }
         }
     }
+
+    func sendTypingIndicator(conversationSid: String, completion: @escaping (String) -> Void) {
+        getConversationFromId(conversationId: conversationSid) { conversation in
+            guard let conversation = conversation else {
+                completion("Conversation not found")
+                return
+            }
+            conversation.typing()
+            completion("Typing indicator sent")
+        }
+    }
+
     
     func getMessageInDictionary(_ message:TCHMessage,_ completion: @escaping([String: Any]?) -> Void) {
         var dictionary: [String: Any] = [:]

@@ -17,4 +17,5 @@ class Methods {
     static let subscribeToMessageUpdate: String = "subscribeToMessageUpdate"
     static let initializeConversationClient: String = "initializeConversationClient"
     static let updateAccessToken: String = "updateAccessToken"
+    static let sendTypingIndicator: String = "sendTypingIndicator"
 }

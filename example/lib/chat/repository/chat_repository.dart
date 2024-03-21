@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter/services.dart';
 import 'package:twilio_chat_conversation/twilio_chat_conversation.dart';
 import 'package:twilio_chat_conversation_example/chat/common/api/api_provider.dart';
@@ -6,19 +7,33 @@ import 'package:twilio_chat_conversation_example/chat/common/models/chat_model.d
 
 abstract class ChatRepository {
   Future<String> initializeConversationClient(String accessToken);
+
   Future<String> generateToken(credentials);
+
   Future<Map> updateAccessToken(String accessToken);
+
   Future<String> getAccessTokenFromServer(credentials);
+
   Future<String> createConversation(conversationName, identity);
+
   Future<String> joinConversation(conversationId);
+
   Future<String> sendMessage(enteredMessage, conversationId, isFromGhatGpt);
+
   addParticipant(participantName, conversationId);
+
   removeParticipant(participantName, conversationId);
+
   Future<List> seeMyConversations();
+
   Future<List> getMessages(conversationId, int? messageCount);
+
   Future<List<ChatModel>> sendMessageToChatGpt(
       modelsProvider, chatProvider, typeMessage);
+
   Future<List> getParticipants(String conversationId);
+
+  Future<String?> sendTypingIndicator(String conversationSid);
 }
 
 class ChatRepositoryImpl implements ChatRepository {
@@ -96,7 +111,10 @@ class ChatRepositoryImpl implements ChatRepository {
 
   @override
   Future<String> sendMessage(
-      enteredMessage, conversationId, isFromChatGpt) async {
+    enteredMessage,
+    conversationId,
+    isFromChatGpt,
+  ) async {
     String response;
     try {
       final String result = await twilioChatConversationPlugin.sendMessage(
@@ -218,6 +236,18 @@ class ChatRepositoryImpl implements ChatRepository {
     } on PlatformException catch (e) {
       response = e.message.toString();
       return response;
+    }
+  }
+
+  @override
+  Future<String?> sendTypingIndicator(String conversationSid) async {
+    try {
+      final String? result = await twilioChatConversationPlugin
+          .sendTypingIndicator(conversationSid);
+      return result;
+    } on PlatformException catch (e) {
+      print('EROROR $e');
+      return null;
     }
   }
 }

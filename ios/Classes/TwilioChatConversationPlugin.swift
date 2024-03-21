@@ -183,6 +183,16 @@ public class TwilioChatConversationPlugin: NSObject,FlutterPlugin,FlutterStreamH
       case Methods.unSubscribeToMessageUpdate:
           conversationsHandler.conversationDelegate = nil
           break
+      case Methods.sendTypingIndicator:
+          if let conversationSid = arguments?["conversationSid"] as? String {
+              self.conversationsHandler.sendTypingIndicator(conversationSid: conversationSid) { sendResult in
+                  // Assuming sendResult is a String that indicates success or failure
+                  result(sendResult)
+              }
+          } else {
+              result(FlutterError(code: "ERROR", message: "Missing conversationSid", details: nil))
+          }
+          break
       default:
           break
     }
