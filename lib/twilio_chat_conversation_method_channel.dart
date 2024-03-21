@@ -60,11 +60,11 @@ class MethodChannelTwilioChatConversation
   /// Get messages from the specific conversation #
   @override
   Future<List?> getMessages({
-    required String conversationId,
+    required String conversationSid,
     int? messageCount,
   }) async {
     final List? messages = await _channel.invokeMethod('getMessages', {
-      "conversationId": conversationId,
+      "conversationSid": conversationSid,
       "messageCount": messageCount,
     });
     //print("messages->$messages");
@@ -73,10 +73,10 @@ class MethodChannelTwilioChatConversation
 
   /// Join the existing conversation #
   @override
-  Future<String?> joinConversation({required String conversationId}) async {
+  Future<String?> joinConversation(String conversationSid) async {
     final String? result =
         await _channel.invokeMethod<String>('joinConversation', {
-      "conversationId": conversationId,
+      "conversationSid": conversationSid,
     });
     return result ?? "";
   }
@@ -84,11 +84,11 @@ class MethodChannelTwilioChatConversation
   /// Send message #
   @override
   Future<String?> sendMessage({
-    required String conversationId,
+    required String conversationSid,
     required String message,
   }) async {
     final String? result = await _channel.invokeMethod<String>('sendMessage', {
-      "conversationId": conversationId,
+      "conversationSid": conversationSid,
       "message": message,
     });
     return result ?? "";
@@ -97,12 +97,12 @@ class MethodChannelTwilioChatConversation
   /// Add participant in a conversation #
   @override
   Future<String?> addParticipant({
-    required String conversationId,
+    required String conversationSid,
     required String participantName,
   }) async {
     final String? result =
         await _channel.invokeMethod<String>('addParticipant', {
-      "conversationId": conversationId,
+      "conversationSid": conversationSid,
       "participantName": participantName,
     });
     return result ?? "";
@@ -110,43 +110,39 @@ class MethodChannelTwilioChatConversation
 
   /// Get messages from the specific conversation #
   @override
-  Future<String?> receiveMessages({required String conversationId}) async {
+  Future<String?> receiveMessages(String conversationSid) async {
     final String? result =
         await _channel.invokeMethod<String>('receiveMessages', {
-      "conversationId": conversationId,
+      "conversationSid": conversationSid,
     });
     return result ?? "";
   }
 
   /// Get participants from the specific conversation #
   @override
-  Future<List?> getParticipants({required String conversationId}) async {
+  Future<List?> getParticipants(String conversationSid) async {
     final List? participantsList =
         await _channel.invokeMethod('getParticipants', {
-      "conversationId": conversationId,
+      "conversationSid": conversationSid,
     });
     return participantsList ?? [];
   }
 
   @override
-  Future<String> subscribeToMessageUpdate({
-    required String conversationId,
-  }) async {
+  Future<String> subscribeToMessageUpdate(String conversationSid) async {
     //
     final String? result =
         await _channel.invokeMethod('subscribeToMessageUpdate', {
-      "conversationId": conversationId,
+      "conversationSid": conversationSid,
     });
     return result ?? "";
   }
 
   @override
-  Future<String> unSubscribeToMessageUpdate({
-    required String conversationId,
-  }) async {
+  Future<String> unSubscribeToMessageUpdate(String conversationSid) async {
     final String? result =
         await _channel.invokeMethod('unSubscribeToMessageUpdate', {
-      "conversationId": conversationId,
+      "conversationSid": conversationSid,
     });
     return result ?? "";
   }
@@ -173,12 +169,12 @@ class MethodChannelTwilioChatConversation
 
   @override
   Future<String?> removeParticipant({
-    required conversationId,
+    required conversationSid,
     required participantName,
   }) async {
     final String? result =
         await _channel.invokeMethod<String>('removeParticipant', {
-      "conversationId": conversationId,
+      "conversationSid": conversationSid,
       "participantName": participantName,
     });
     return result ?? "";

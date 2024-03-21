@@ -108,7 +108,7 @@ public class TwilioChatConversationPlugin: NSObject,FlutterPlugin,FlutterStreamH
           break
       case Methods.getParticipants:
           var listOfParticipants: [[String:Any]] = []
-          self.conversationsHandler.getParticipants(conversationId: arguments?["conversationId"] as! String) { participantsList in
+          self.conversationsHandler.getParticipants(conversationSid: arguments?["conversationSid"] as! String) { participantsList in
               for user in participantsList {
                   var participant: [String: Any] = [:]
                   if (!ConvertorUtility.isNilOrEmpty(user.identity)) {
@@ -125,7 +125,7 @@ public class TwilioChatConversationPlugin: NSObject,FlutterPlugin,FlutterStreamH
           }
           break
       case Methods.addParticipant:
-          self.conversationsHandler.addParticipants(conversationId: arguments?["conversationId"] as! String, participantName: arguments?["participantName"] as! String) { status in
+          self.conversationsHandler.addParticipants(conversationSid: arguments?["conversationSid"] as! String, participantName: arguments?["participantName"] as! String) { status in
               if let addParticipantStatus = status {
                   if (addParticipantStatus.isSuccessful){
                       result(Strings.addParticipantSuccess)
@@ -136,7 +136,7 @@ public class TwilioChatConversationPlugin: NSObject,FlutterPlugin,FlutterStreamH
           }
           break
       case Methods.removeParticipant:
-          self.conversationsHandler.removeParticipants(conversationId: arguments?["conversationId"] as! String, participantName: arguments?["participantName"] as! String) { status in
+          self.conversationsHandler.removeParticipants(conversationSid: arguments?["conversationSid"] as! String, participantName: arguments?["participantName"] as! String) { status in
               if let removeParticipantStatus = status {
                   if (removeParticipantStatus.isSuccessful){
                       result(Strings.removedParticipantSuccess)
@@ -147,7 +147,7 @@ public class TwilioChatConversationPlugin: NSObject,FlutterPlugin,FlutterStreamH
           }
           break
       case Methods.joinConversation:
-          self.conversationsHandler.getConversationFromId(conversationId: arguments?["conversationId"] as! String) { conversation in
+          self.conversationsHandler.getConversationFromId(conversationSid: arguments?["conversationSid"] as! String) { conversation in
               if let conversationFromId = conversation {
                   self.conversationsHandler.joinConversation(conversationFromId) { tchConversationStatus in
                       result(tchConversationStatus)
@@ -155,7 +155,7 @@ public class TwilioChatConversationPlugin: NSObject,FlutterPlugin,FlutterStreamH
               }
           }
       case Methods.getMessages:
-          self.conversationsHandler.getConversationFromId(conversationId: arguments?["conversationId"] as! String) { conversation in
+          self.conversationsHandler.getConversationFromId(conversationSid: arguments?["conversationSid"] as! String) { conversation in
               if let conversationFromId = conversation {
                   self.conversationsHandler.loadPreviousMessages(conversationFromId,arguments?["messageCount"] as? UInt) { listOfMessages in
 //                      print("listOfMessagess->\(String(describing: listOfMessages))")
@@ -166,7 +166,7 @@ public class TwilioChatConversationPlugin: NSObject,FlutterPlugin,FlutterStreamH
           break
           
       case Methods.sendMessage:
-          self.conversationsHandler.sendMessage(conversationId: arguments?["conversationId"] as! String, messageText: arguments?["message"] as! String) { tchResult, tchMessages in
+          self.conversationsHandler.sendMessage(conversationSid: arguments?["conversationSid"] as! String, messageText: arguments?["message"] as! String) { tchResult, tchMessages in
               if (tchResult.isSuccessful){
                   result("send")
               }else {
@@ -175,9 +175,9 @@ public class TwilioChatConversationPlugin: NSObject,FlutterPlugin,FlutterStreamH
           }
           break
       case Methods.subscribeToMessageUpdate:
-          if let conversationId = arguments?["conversationId"] as? String {
+          if let conversationSid = arguments?["conversationSid"] as? String {
               conversationsHandler.conversationDelegate = self
-              conversationsHandler.messageSubscriptionId = conversationId
+              conversationsHandler.messageSubscriptionId = conversationSid
           }
           break
       case Methods.unSubscribeToMessageUpdate:
@@ -202,8 +202,8 @@ public class TwilioChatConversationPlugin: NSObject,FlutterPlugin,FlutterStreamH
 /// Called when new message for specific conversation is received
 extension TwilioChatConversationPlugin : ConversationDelegate {
     func onMessageUpdate(message: [String : Any], messageSubscriptionId: String) {
-        if let conversationId = message["conversationId"] as? String,let message = message["message"] as? [String:Any] {
-            if (messageSubscriptionId == conversationId) {
+        if let conversationSid = message["conversationSid"] as? String,let message = message["message"] as? [String:Any] {
+            if (messageSubscriptionId == conversationSid) {
                 self.eventSink?(message)
             }
         }

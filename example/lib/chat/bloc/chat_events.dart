@@ -38,10 +38,10 @@ class CreateConversationEvent extends ChatEvents {
 
 // JoinConversion
 class JoinConversionEvent extends ChatEvents {
-  final String conversationId;
+  final String conversationSid;
   final String conversationName;
   JoinConversionEvent(
-      {required this.conversationId, required this.conversationName});
+      {required this.conversationSid, required this.conversationName});
 
   @override
   List<Object?> get props => throw UnimplementedError();
@@ -63,9 +63,9 @@ class SendMessageEvent extends ChatEvents {
 
 //SendMessage
 class ReceiveMessageEvent extends ChatEvents {
-  final String? conversationId;
+  final String? conversationSid;
   final int? messageCount;
-  ReceiveMessageEvent({required this.conversationId, this.messageCount});
+  ReceiveMessageEvent({required this.conversationSid, this.messageCount});
 
   @override
   List<Object?> get props => throw UnimplementedError();
@@ -102,9 +102,9 @@ class SeeMyConversationsEvent extends ChatEvents {
 }
 
 class GetParticipantsEvent extends ChatEvents {
-  final String conversationId;
-  GetParticipantsEvent({required this.conversationId});
+  final String conversationSid;
+  GetParticipantsEvent({required this.conversationSid});
 
   @override
-  List<Object?> get props => [conversationId];
+  List<Object?> get props => [conversationSid];
 }

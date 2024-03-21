@@ -68,35 +68,35 @@ public class TwilioChatConversationPlugin implements FlutterPlugin, MethodCallHa
         break;
       // Get messages from the specific conversation #
       case Methods.getMessages:
-        ConversationHandler.getAllMessages(call.argument("conversationId"),call.argument("messageCount"),result);
+        ConversationHandler.getAllMessages(call.argument("conversationSid"),call.argument("messageCount"),result);
         break;
       //Join the existing conversation #
       case Methods.joinConversation:
-        String joinStatus = ConversationHandler.joinConversation(call.argument("conversationId"));
+        String joinStatus = ConversationHandler.joinConversation(call.argument("conversationSid"));
         result.success(joinStatus);
         break;
       // Send message #
       case Methods.sendMessage:
-        ConversationHandler.sendMessages(call.argument("message"),call.argument("conversationId"), Boolean.TRUE.equals(call.argument("isFromChatGpt")),result);
+        ConversationHandler.sendMessages(call.argument("message"),call.argument("conversationSid"), Boolean.TRUE.equals(call.argument("isFromChatGpt")),result);
         break;
       // Add participant in a conversation #
       case Methods.addParticipant:
-        ConversationHandler.addParticipant(call.argument("participantName"),call.argument("conversationId"),result);
+        ConversationHandler.addParticipant(call.argument("participantName"),call.argument("conversationSid"),result);
         break;
       case Methods.removeParticipant:
-        ConversationHandler.removeParticipant(call.argument("participantName"),call.argument("conversationId"),result);
+        ConversationHandler.removeParticipant(call.argument("participantName"),call.argument("conversationSid"),result);
         break;
       // Get & Listen messages from the specific conversation #
       case Methods.receiveMessages:
       case Methods.subscribeToMessageUpdate:
-        ConversationHandler.subscribeToMessageUpdate(call.argument("conversationId"));
+        ConversationHandler.subscribeToMessageUpdate(call.argument("conversationSid"));
         break;
       // Get participants from the specific conversation #
       case Methods.getParticipants:
-        ConversationHandler.getParticipants(call.argument("conversationId"),result);
+        ConversationHandler.getParticipants(call.argument("conversationSid"),result);
         break;
       case Methods.unSubscribeToMessageUpdate:
-        ConversationHandler.unSubscribeToMessageUpdate(call.argument("conversationId"));
+        ConversationHandler.unSubscribeToMessageUpdate(call.argument("conversationSid"));
         break;
       case Methods.updateAccessToken:
         ConversationHandler.updateAccessToken(call.argument("accessToken"),result);

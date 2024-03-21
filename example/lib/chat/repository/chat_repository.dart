@@ -16,22 +16,22 @@ abstract class ChatRepository {
 
   Future<String> createConversation(conversationName, identity);
 
-  Future<String> joinConversation(conversationId);
+  Future<String> joinConversation(conversationSid);
 
-  Future<String> sendMessage(enteredMessage, conversationId, isFromGhatGpt);
+  Future<String> sendMessage(enteredMessage, conversationSid, isFromGhatGpt);
 
-  addParticipant(participantName, conversationId);
+  addParticipant(participantName, conversationSid);
 
-  removeParticipant(participantName, conversationId);
+  removeParticipant(participantName, conversationSid);
 
   Future<List> seeMyConversations();
 
-  Future<List> getMessages(conversationId, int? messageCount);
+  Future<List> getMessages(conversationSid, int? messageCount);
 
   Future<List<ChatModel>> sendMessageToChatGpt(
       modelsProvider, chatProvider, typeMessage);
 
-  Future<List> getParticipants(String conversationId);
+  Future<List> getParticipants(String conversationSid);
 
   Future<String?> sendTypingIndicator(String conversationSid);
 }
@@ -95,11 +95,11 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Future<String> joinConversation(conversationId) async {
+  Future<String> joinConversation(conversationSid) async {
     String response;
     try {
-      final String result = await twilioChatConversationPlugin.joinConversation(
-              conversationId: conversationId) ??
+      final String result = await twilioChatConversationPlugin
+              .joinConversation(conversationSid) ??
           "UnImplemented Error";
       response = result;
       return response;
@@ -112,13 +112,13 @@ class ChatRepositoryImpl implements ChatRepository {
   @override
   Future<String> sendMessage(
     enteredMessage,
-    conversationId,
+    conversationSid,
     isFromChatGpt,
   ) async {
     String response;
     try {
       final String result = await twilioChatConversationPlugin.sendMessage(
-              message: enteredMessage, conversationId: conversationId) ??
+              message: enteredMessage, conversationSid: conversationSid) ??
           "UnImplemented Error";
       response = result;
       return response;
@@ -129,12 +129,12 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Future<String> addParticipant(participantName, conversationId) async {
+  Future<String> addParticipant(participantName, conversationSid) async {
     String response;
     try {
       final String result = await twilioChatConversationPlugin.addParticipant(
               participantName: participantName,
-              conversationId: conversationId) ??
+              conversationSid: conversationSid) ??
           "UnImplemented Error";
       response = result;
       return response;
@@ -159,11 +159,11 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Future<List> getMessages(conversationId, messageCount) async {
+  Future<List> getMessages(conversationSid, messageCount) async {
     List response = [];
     try {
       final List result = await twilioChatConversationPlugin.getMessages(
-              conversationId: conversationId, messageCount: messageCount) ??
+              conversationSid: conversationSid, messageCount: messageCount) ??
           [];
       response = result;
 
@@ -183,12 +183,12 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Future<List> getParticipants(String conversationId) async {
+  Future<List> getParticipants(String conversationSid) async {
     List response = [];
     try {
-      final List result = await twilioChatConversationPlugin.getParticipants(
-              conversationId: conversationId) ??
-          [];
+      final List result =
+          await twilioChatConversationPlugin.getParticipants(conversationSid) ??
+              [];
       //print("getParticipants result->$result");
       response = result;
       return response;
@@ -223,13 +223,13 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  removeParticipant(participantName, conversationId) async {
+  removeParticipant(participantName, conversationSid) async {
     String response;
     try {
       final String result =
           await twilioChatConversationPlugin.removeParticipant(
                   participantName: participantName,
-                  conversationId: conversationId) ??
+                  conversationSid: conversationSid) ??
               "UnImplemented Error";
       response = result;
       return response;

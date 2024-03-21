@@ -23,7 +23,7 @@ class ConversationsHandler: NSObject, TwilioConversationsClientDelegate {
                 self.getMessageInDictionary(message) { messageDictionary in
             if let messageDict = messageDictionary {
                 var updatedMessage: [String: Any] = [:]
-                updatedMessage["conversationId"] = conversation.sid ?? ""
+                updatedMessage["conversationSid"] = conversation.sid ?? ""
                 updatedMessage["message"] = messageDict
                 self.conversationDelegate?.onMessageUpdate(message: updatedMessage, messageSubscriptionId: self.messageSubscriptionId)
             }
@@ -72,9 +72,9 @@ class ConversationsHandler: NSObject, TwilioConversationsClientDelegate {
         })
     }
 
-    func sendMessage(conversationId:String, messageText: String,
+    func sendMessage(conversationSid:String, messageText: String,
                      completion: @escaping (TCHResult, TCHMessage?) -> Void) {
-            self.getConversationFromId(conversationId: conversationId) { conversation in
+            self.getConversationFromId(conversationSid: conversationSid) { conversation in
             conversation?.prepareMessage().setBody(messageText).buildAndSend(completion: { tchResult, tchMessages in
                 completion(tchResult,tchMessages)
             })
@@ -127,22 +127,22 @@ class ConversationsHandler: NSObject, TwilioConversationsClientDelegate {
         completion(client.myConversations() ?? [])
     }
     
-    func getParticipants(conversationId:String,_ completion: @escaping([TCHParticipant]) -> Void) {
-        self.getConversationFromId(conversationId: conversationId) { conversation in
+    func getParticipants(conversationSid:String,_ completion: @escaping([TCHParticipant]) -> Void) {
+        self.getConversationFromId(conversationSid: conversationSid) { conversation in
             completion(conversation?.participants() ?? [])
         }
     }
     
-    func addParticipants(conversationId:String,participantName:String,_ completion: @escaping(TCHResult?) -> Void) {
-        self.getConversationFromId(conversationId: conversationId) { conversation in
+    func addParticipants(conversationSid:String,participantName:String,_ completion: @escaping(TCHResult?) -> Void) {
+        self.getConversationFromId(conversationSid: conversationSid) { conversation in
             conversation?.addParticipant(byIdentity: participantName, attributes: nil,completion: { status in
                 completion(status)
             })
         }
     }
     
-    func removeParticipants(conversationId:String,participantName:String,_ completion: @escaping(TCHResult?) -> Void) {
-        self.getConversationFromId(conversationId: conversationId) { conversation in
+    func removeParticipants(conversationSid:String,participantName:String,_ completion: @escaping(TCHResult?) -> Void) {
+        self.getConversationFromId(conversationSid: conversationSid) { conversation in
             conversation?.removeParticipant(byIdentity: participantName,completion: { status in
                 print("status->\(status)")
                 completion(status)
@@ -168,14 +168,14 @@ class ConversationsHandler: NSObject, TwilioConversationsClientDelegate {
         completion(conversation.sid)
     }
     
-    func getConversationFromId(conversationId:String,_ completion: @escaping(TCHConversation?) -> Void){
+    func getConversationFromId(conversationSid:String,_ completion: @escaping(TCHConversation?) -> Void){
         guard let client = client else {
             return
         }
         guard client.synchronizationStatus == .completed else {
             return
         }
-        client.conversation(withSidOrUniqueName: conversationId) { (result, conversation) in
+        client.conversation(withSidOrUniqueName: conversationSid) { (result, conversation) in
             if let conversationFromSid = conversation {
                 completion(conversationFromSid)
             }
@@ -203,7 +203,7 @@ class ConversationsHandler: NSObject, TwilioConversationsClientDelegate {
     }
 
     func sendTypingIndicator(conversationSid: String, completion: @escaping (String) -> Void) {
-        getConversationFromId(conversationId: conversationSid) { conversation in
+        getConversationFromId(conversationSid: conversationSid) { conversation in
             guard let conversation = conversation else {
                 completion("Conversation not found")
                 return

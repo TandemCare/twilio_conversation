@@ -86,7 +86,7 @@ class ChatBloc extends Bloc<ChatEvents, ChatStates> {
       emit(JoinConversionLoadingState());
       try {
         String result =
-            await chatRepository.joinConversation(event.conversationId);
+            await chatRepository.joinConversation(event.conversationSid);
         emit(JoinConversionLoadedState(
             result: result, conversationName: event.conversationName));
       } catch (e) {
@@ -129,7 +129,7 @@ class ChatBloc extends Bloc<ChatEvents, ChatStates> {
       emit(ReceiveMessageLoadingState());
       try {
         List result = await chatRepository.getMessages(
-            event.conversationId, event.messageCount);
+            event.conversationSid, event.messageCount);
 
         emit(ReceiveMessageLoadedState(messagesList: result));
       } catch (e) {
@@ -140,7 +140,7 @@ class ChatBloc extends Bloc<ChatEvents, ChatStates> {
       emit(GetParticipantsLoadingState());
       try {
         List result =
-            await chatRepository.getParticipants(event.conversationId);
+            await chatRepository.getParticipants(event.conversationSid);
         emit(GetParticipantsLoadedState(participantsList: result));
       } catch (e) {
         emit(GetParticipantsErrorState(message: e.toString()));

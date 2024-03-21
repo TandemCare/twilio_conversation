@@ -86,26 +86,30 @@ class TwilioChatConversation {
   /// This method retrieves messages from the specified conversation. The optional
   /// [messageCount] parameter allows you to limit the number of messages to retrieve.
   ///
-  /// - [conversationId]: The ID of the conversation from which to retrieve messages.
+  /// - [conversationSid]: The ID of the conversation from which to retrieve messages.
   /// - [messageCount]: The maximum number of messages to retrieve (optional).
   ///
   /// Returns a list of messages as [List], or `null` if the operation fails.
-  Future<List?> getMessages(
-      {required String conversationId, int? messageCount}) {
+  Future<List?> getMessages({
+    required String conversationSid,
+    int? messageCount,
+  }) {
     return TwilioChatConversationPlatform.instance.getMessages(
-        conversationId: conversationId, messageCount: messageCount);
+      conversationSid: conversationSid,
+      messageCount: messageCount,
+    );
   }
 
   /// Joins a conversation.
   ///
   /// This method allows a user to join an existing conversation by specifying its ID.
   ///
-  /// - [conversationId]: The ID of the conversation to join.
+  /// - [conversationSid]: The ID of the conversation to join.
   ///
   /// Returns a [String] indicating the result of the operation, or `null` if it fails.
-  Future<String?> joinConversation({required String conversationId}) {
+  Future<String?> joinConversation(String conversationSid) {
     return TwilioChatConversationPlatform.instance
-        .joinConversation(conversationId: conversationId);
+        .joinConversation(conversationSid);
   }
 
   /// Sends a message in a conversation.
@@ -113,58 +117,58 @@ class TwilioChatConversation {
   /// This method sends a message in the specified conversation.
   ///
   /// - [message]: The message content to send.
-  /// - [conversationId]: The ID of the conversation in which to send the message.
+  /// - [conversationSid]: The ID of the conversation in which to send the message.
   ///
   /// Returns a [String] indicating the result of the operation, or `null` if it fails.
-  Future<String?> sendMessage({required message, required conversationId}) {
+  Future<String?> sendMessage({required message, required conversationSid}) {
     return TwilioChatConversationPlatform.instance
-        .sendMessage(conversationId: conversationId, message: message);
+        .sendMessage(conversationSid: conversationSid, message: message);
   }
 
   /// Adds a participant in a conversation.
   ///
   /// - [participantName]: The name of the participant to be added.
-  /// - [conversationId]: The ID of the conversation in which to add the participant.
+  /// - [conversationSid]: The ID of the conversation in which to add the participant.
   Future<String?> addParticipant(
-      {required participantName, required conversationId}) {
+      {required participantName, required conversationSid}) {
     return TwilioChatConversationPlatform.instance.addParticipant(
-        conversationId: conversationId, participantName: participantName);
+        conversationSid: conversationSid, participantName: participantName);
   }
 
   /// Removes a participant from a conversation.
   ///
   /// - [participantName]: The name of the participant to be removed.
-  /// - [conversationId]: The ID of the conversation from which to remove the participant.
+  /// - [conversationSid]: The ID of the conversation from which to remove the participant.
   Future<String?> removeParticipant(
-      {required participantName, required conversationId}) {
+      {required participantName, required conversationSid}) {
     return TwilioChatConversationPlatform.instance.removeParticipant(
-        conversationId: conversationId, participantName: participantName);
+        conversationSid: conversationSid, participantName: participantName);
   }
 
   /// Receives messages for a specific conversation.
   ///
-  /// - [conversationId]: The ID of the conversation for which to receive messages.
+  /// - [conversationSid]: The ID of the conversation for which to receive messages.
   ///
   /// Returns a [String] indicating the result of the operation, or `null` if it fails.
-  Future<String?> receiveMessages({required String conversationId}) {
+  Future<String?> receiveMessages(String conversationSid) {
     return TwilioChatConversationPlatform.instance
-        .receiveMessages(conversationId: conversationId);
+        .receiveMessages(conversationSid);
   }
 
   /// Retrieves a list of participants for a conversation.
   ///
-  /// - [conversationId]: The ID of the conversation for which to retrieve participants.
+  /// - [conversationSid]: The ID of the conversation for which to retrieve participants.
   ///
   /// Returns a list of participants as [List], or `null` if the operation fails.
-  Future<List?> getParticipants({required String conversationId}) {
+  Future<List?> getParticipants(String conversationSid) {
     return TwilioChatConversationPlatform.instance
-        .getParticipants(conversationId: conversationId);
+        .getParticipants(conversationSid);
   }
 
   /// Subscribes to message update events for a specific conversation.
-  void subscribeToMessageUpdate({required String conversationSid}) async {
+  void subscribeToMessageUpdate(String conversationSid) async {
     TwilioChatConversationPlatform.instance
-        .subscribeToMessageUpdate(conversationId: conversationSid);
+        .subscribeToMessageUpdate(conversationSid);
     _messageEventChannel
         .receiveBroadcastStream(conversationSid)
         .listen((dynamic message) {
@@ -177,9 +181,9 @@ class TwilioChatConversation {
   }
 
   /// Unsubscribes from message update events for a specific conversation.
-  void unSubscribeToMessageUpdate({required String conversationSid}) {
+  void unSubscribeToMessageUpdate(String conversationSid) {
     TwilioChatConversationPlatform.instance
-        .unSubscribeToMessageUpdate(conversationId: conversationSid);
+        .unSubscribeToMessageUpdate(conversationSid);
   }
 
   /// Updates the access token used for communication.

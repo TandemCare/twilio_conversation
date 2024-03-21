@@ -60,31 +60,31 @@ final List result = await twilioChatConversationPlugin.getConversations() ?? [];
 
 ### Get messages from the specific conversation
 ```dart
-final  List result = await twilioChatConversationPlugin.getMessages(conversationId: conversationId) ?? [];
+final  List result = await twilioChatConversationPlugin.getMessages(conversationSid: conversationSid) ?? [];
 ```
 
 ### Join an existing conversation
 ```dart
-final String? result = await twilioChatConversationPlugin.joinConversation(conversationId:conversationId);
+final String? result = await twilioChatConversationPlugin.joinConversation(conversationSid:conversationSid);
 ```
 
 ### Send message
 ```dart
-final String? result = await twilioChatConversationPlugin.sendMessage(message:enteredMessage,conversationId:conversationId);
+final String? result = await twilioChatConversationPlugin.sendMessage(message:enteredMessage,conversationSid:conversationSid);
 ```
 
 ### Add participant in a conversation
 ```dart
-final String? result = await twilioChatConversationPlugin.addParticipant(participantName:participantName,conversationId:conversationId);
+final String? result = await twilioChatConversationPlugin.addParticipant(participantName:participantName,conversationSid:conversationSid);
 ```
 ### Remove participant from a conversation
 ```dart
-final String? result = await twilioChatConversationPlugin.removeParticipant(participantName:participantName,conversationId:conversationId);
+final String? result = await twilioChatConversationPlugin.removeParticipant(participantName:participantName,conversationSid:conversationSid);
 ```
 
 ### Get participants from the specific conversation
 ```dart
-final  List result = await twilioChatConversationPlugin.getParticipants(conversationId: conversationId) ?? [];
+final  List result = await twilioChatConversationPlugin.getParticipants(conversationSid: conversationSid) ?? [];
 ```
 
 ### Subscribe to message update

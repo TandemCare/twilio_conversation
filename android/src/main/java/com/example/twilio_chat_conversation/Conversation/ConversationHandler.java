@@ -68,8 +68,8 @@ public class ConversationHandler {
         });
     }
     /// Add participant in a conversation #
-    public static void addParticipant(String participantName, String conversationId, MethodChannel.Result result){
-        conversationClient.getConversation(conversationId,new CallbackListener<Conversation>(){
+    public static void addParticipant(String participantName, String conversationSid, MethodChannel.Result result){
+        conversationClient.getConversation(conversationSid,new CallbackListener<Conversation>(){
             @Override
             public void onSuccess(Conversation conversation) {
                 // Retrieve the conversation object using the conversation SID
@@ -93,8 +93,8 @@ public class ConversationHandler {
         });
     }
     /// Remove participant in a conversation #
-    public static void removeParticipant(String participantName, String conversationId, MethodChannel.Result result){
-        conversationClient.getConversation(conversationId,new CallbackListener<Conversation>(){
+    public static void removeParticipant(String participantName, String conversationSid, MethodChannel.Result result){
+        conversationClient.getConversation(conversationSid,new CallbackListener<Conversation>(){
             @Override
             public void onSuccess(Conversation conversation) {
                 // Retrieve the conversation object using the conversation SID
@@ -122,8 +122,8 @@ public class ConversationHandler {
         });
     }
     ///Join the existing conversation #
-    public static String joinConversation(String conversationId){
-        conversationClient.getConversation(conversationId,new CallbackListener<Conversation>(){
+    public static String joinConversation(String conversationSid){
+        conversationClient.getConversation(conversationSid,new CallbackListener<Conversation>(){
             @Override
             public void onSuccess(Conversation result) {
                 // Retrieve the conversation object using the conversation SID
@@ -142,11 +142,11 @@ public class ConversationHandler {
                 CallbackListener.super.onError(errorInfo);
             }
         });
-        return conversationId;
+        return conversationSid;
     }
     /// Send message #
-    public static void sendMessages(String enteredMessage, String conversationId, boolean isFromChatGpt, MethodChannel.Result result){
-        conversationClient.getConversation(conversationId,new CallbackListener<Conversation>(){
+    public static void sendMessages(String enteredMessage, String conversationSid, boolean isFromChatGpt, MethodChannel.Result result){
+        conversationClient.getConversation(conversationSid,new CallbackListener<Conversation>(){
             @Override
             public void onSuccess(Conversation conversation) {
                 // Join the conversation with the given participant identity
@@ -171,8 +171,8 @@ public class ConversationHandler {
         });
     }
     /// Subscribe To Message Update #
-    public static void subscribeToMessageUpdate(String conversationId){
-        conversationClient.getConversation(conversationId,new CallbackListener<Conversation>(){
+    public static void subscribeToMessageUpdate(String conversationSid){
+        conversationClient.getConversation(conversationSid,new CallbackListener<Conversation>(){
             @Override
             public void onSuccess(Conversation result) {
                 // Join the conversation with the given participant identity
@@ -241,8 +241,8 @@ public class ConversationHandler {
         });
     }
     /// Unsubscribe To Message Update #
-    public static void unSubscribeToMessageUpdate(String conversationId){
-        conversationClient.getConversation(conversationId,new CallbackListener<Conversation>(){
+    public static void unSubscribeToMessageUpdate(String conversationSid){
+        conversationClient.getConversation(conversationSid,new CallbackListener<Conversation>(){
             @Override
             public void onSuccess(Conversation result) {
                 /// Retrieve the conversation object using the conversation SID
@@ -278,9 +278,9 @@ public class ConversationHandler {
         return  list;
     }
     /// Get messages from the specific conversation #
-    public static void getAllMessages(String conversationId, Integer messageCount, MethodChannel.Result result) {
+    public static void getAllMessages(String conversationSid, Integer messageCount, MethodChannel.Result result) {
         List<Map<String, Object>> list = new ArrayList<>();
-        conversationClient.getConversation(conversationId,new CallbackListener<Conversation>() {
+        conversationClient.getConversation(conversationSid,new CallbackListener<Conversation>() {
             @Override
             public void onSuccess(Conversation conversation) {
                 conversation.getLastMessages((messageCount != null) ? messageCount :1000, new CallbackListener<List<Message>>() {
@@ -423,8 +423,8 @@ public class ConversationHandler {
         });
     }
     /// Get participants from the specific conversation #
-    public static void getParticipants(String conversationId, MethodChannel.Result result) {
-        conversationClient.getConversation(conversationId,new CallbackListener<Conversation>() {
+    public static void getParticipants(String conversationSid, MethodChannel.Result result) {
+        conversationClient.getConversation(conversationSid,new CallbackListener<Conversation>() {
             @Override
             public void onSuccess(Conversation conversation) {
                 List<Participant> participantList = conversation.getParticipantsList();

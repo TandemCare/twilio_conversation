@@ -115,7 +115,7 @@ class _ConversationListScreenState extends State<ConversationListScreen> {
                               IconButton(
                                   onPressed: () {
                                     chatBloc!.add(JoinConversionEvent(
-                                        conversationId: widget
+                                        conversationSid: widget
                                             .conversationList[index]["sid"],
                                         conversationName:
                                             widget.conversationList[index]
@@ -128,7 +128,7 @@ class _ConversationListScreenState extends State<ConversationListScreen> {
                               IconButton(
                                   onPressed: () {
                                     chatBloc!.add(GetParticipantsEvent(
-                                        conversationId: widget
+                                        conversationSid: widget
                                             .conversationList[index]["sid"]));
                                   },
                                   icon: const Icon(

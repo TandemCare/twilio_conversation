@@ -51,41 +51,41 @@ abstract class TwilioChatConversationPlatform extends PlatformInterface {
   }
 
   Future<List?> getMessages(
-      {required String conversationId, int? messageCount}) {
+      {required String conversationSid, int? messageCount}) {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
-  Future<String?> joinConversation({required String conversationId}) {
+  Future<String?> joinConversation(String conversationSid) {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
   Future<String?> sendMessage({
-    required String conversationId,
+    required String conversationSid,
     required String message,
   }) {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
   Future<String?> addParticipant({
-    required String conversationId,
+    required String conversationSid,
     required String participantName,
   }) {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
-  Future<String?> receiveMessages({required String conversationId}) {
+  Future<String?> receiveMessages(String conversationSid) {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
-  Future<List?> getParticipants({required String conversationId}) {
+  Future<List?> getParticipants(String conversationSid) {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
-  Future<String?> subscribeToMessageUpdate({required String conversationId}) {
+  Future<String?> subscribeToMessageUpdate(String conversationSid) {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
-  Future<String?> unSubscribeToMessageUpdate({required String conversationId}) {
+  Future<String?> unSubscribeToMessageUpdate(String conversationSid) {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
@@ -98,7 +98,7 @@ abstract class TwilioChatConversationPlatform extends PlatformInterface {
   }
 
   Future<String?> removeParticipant({
-    required conversationId,
+    required conversationSid,
     required participantName,
   }) {
     throw UnimplementedError('platformVersion() has not been implemented.');

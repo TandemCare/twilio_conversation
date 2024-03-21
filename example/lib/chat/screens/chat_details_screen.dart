@@ -14,6 +14,7 @@ class ChatDetailsScreen extends StatefulWidget {
   final String conversationName;
   final String conversationSid;
   final String? identity;
+
   const ChatDetailsScreen(
       {Key? key,
       required this.conversationName,
@@ -52,7 +53,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
 
   void initializeDate() {
     chatBloc = BlocProvider.of<ChatBloc>(context);
-    chatBloc!.add(ReceiveMessageEvent(conversationId: widget.conversationSid));
+    chatBloc!.add(ReceiveMessageEvent(conversationSid: widget.conversationSid));
     SchedulerBinding.instance.addPostFrameCallback((_) {
       _controller.animateTo(
         0.0,
@@ -63,13 +64,13 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
   }
 
   void unSubscribeToMessageUpdate() {
-    twilioChatConversationPlugin.unSubscribeToMessageUpdate(
-        conversationSid: widget.conversationSid);
+    twilioChatConversationPlugin
+        .unSubscribeToMessageUpdate(widget.conversationSid);
   }
 
   void subscribeToMessageUpdate() {
-    twilioChatConversationPlugin.subscribeToMessageUpdate(
-        conversationSid: widget.conversationSid);
+    twilioChatConversationPlugin
+        .subscribeToMessageUpdate(widget.conversationSid);
     twilioChatConversationPlugin.onMessageReceived.listen((event) {
       if (mounted) {
         setState(() {
@@ -155,7 +156,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
               msgController.text = "";
               // Provide messageCount to control the number of messages to be displayed in a conversation
               chatBloc!.add(ReceiveMessageEvent(
-                  conversationId: widget.conversationSid, messageCount: 2));
+                  conversationSid: widget.conversationSid, messageCount: 2));
             }
             if (state is SendMessageToChatGptLoadedState) {
               chatBloc!.add(SendMessageEvent(
