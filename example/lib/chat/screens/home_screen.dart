@@ -70,8 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Colors.white,
                   child: TextButton(
                     onPressed: () async {
-                      const token =
-                          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImN0eSI6InR3aWxpby1mcGE7dj0xIn0.eyJpc3MiOiJTSzMzY2VjMTEzZGJhZDZhZTUxNDgxZDYwYWMwYzJmMjJlIiwiZXhwIjoxNzExMDE2MDIyLCJqdGkiOiJTSzMzY2VjMTEzZGJhZDZhZTUxNDgxZDYwYWMwYzJmMjJlLTE3MTEwMTI0MjIiLCJzdWIiOiJBQzNlNGE5NzNmMDUyMGY2M2QyYmIzM2Q3YTk4MzQxMzZmIiwiZ3JhbnRzIjp7ImlkZW50aXR5IjoiVG9tXzA2MzYwMiIsImNoYXQiOnsic2VydmljZV9zaWQiOiJJUzA0OGVlNTAzNmE2OTQ0OGI4MGY0YzEyMTcyNTZjY2FhIn19fQ.llhmaf3NC685w5tquKqLWWe7X2G8HGzHV_jMi8TF128';
+                      const token = '';
                       final repo = ChatRepositoryImpl();
                       String result = await repo.initializeConversationClient(
                         token,
@@ -86,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Colors.white,
                   child: TextButton(
                     onPressed: () async {
-                      final sid = 'CH8939d52ed2c4460da85cce9546a8ed64';
+                      final sid = '';
                       final repo = ChatRepositoryImpl();
                       final result = await repo.sendMessage(
                         'Test 2',
@@ -102,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Colors.white,
                   child: TextButton(
                     onPressed: () async {
-                      final sid = 'CH8939d52ed2c4460da85cce9546a8ed64';
+                      final sid = '';
 
                       final repo = ChatRepositoryImpl();
                       final result = await repo.sendTypingIndicator(
