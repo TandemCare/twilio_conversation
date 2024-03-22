@@ -219,10 +219,12 @@ public class ConversationHandler {
 
                     @Override
                     public void onTypingStarted(Conversation conversation, Participant participant) {
+                        messageInterface.onTypingUpdate(true);
                     }
 
                     @Override
                     public void onTypingEnded(Conversation conversation, Participant participant) {
+                        messageInterface.onTypingUpdate(false);
                     }
 
                     @Override
@@ -472,6 +474,24 @@ public class ConversationHandler {
         });
     }
 
+    public void sendTypingIndicator(String conversationSid, CallbackListener<String> completion) {
+        conversationClient.getConversation(conversationSid, new CallbackListener<Conversation>() {
+            @Override
+            public void onSuccess(Conversation conversation) {
+                if (conversation != null) {
+                    conversation.typing();
+                    completion.onSuccess("Typing indicator sent");
+                } else {
+                    completion.onError(new Throwable("Conversation not found"));
+                }
+            }
+
+            @Override
+            public void onError(ErrorInfo errorInfo) {
+                completion.onError(new Throwable("Failed to get conversation: " + errorInfo.getMessage()));
+            }
+        });
+    }
     public void setListener(MessageInterface listener) {
         ConversationHandler.messageInterface = listener;
     }

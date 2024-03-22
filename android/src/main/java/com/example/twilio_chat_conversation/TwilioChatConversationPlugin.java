@@ -101,6 +101,9 @@ public class TwilioChatConversationPlugin implements FlutterPlugin, MethodCallHa
       case Methods.updateAccessToken:
         ConversationHandler.updateAccessToken(call.argument("accessToken"),result);
         break;
+      case Methods.sendTypingIndicator:
+        ConversationHandler.sendTypingIndicator(call.argument("sendTypingIndicator"),result);
+        break;
       default:
         break;
     }
@@ -133,6 +136,13 @@ public class TwilioChatConversationPlugin implements FlutterPlugin, MethodCallHa
     /// Pass the message result back to the Flutter side
     if (this.eventSink != null) {
       this.eventSink.success(message);
+    }
+  }
+
+  @Override
+  public void onTypingUpdate(boolean isTyping) {
+    if (this.eventSink != null) {
+      this.eventSink.success(isTyping);
     }
   }
 
