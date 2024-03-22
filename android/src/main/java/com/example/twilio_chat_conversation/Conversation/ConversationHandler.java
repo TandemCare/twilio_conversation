@@ -16,6 +16,7 @@ import com.twilio.conversations.User;
 import com.twilio.jwt.accesstoken.AccessToken;
 import com.twilio.jwt.accesstoken.ChatGrant;
 import com.twilio.util.ErrorInfo;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +28,7 @@ import io.flutter.plugin.common.MethodChannel;
 
 public class ConversationHandler {
     /// Entry point for the Conversations SDK.
-    public static  ConversationsClient conversationClient;
+    public static ConversationsClient conversationClient;
     public static FlutterPlugin.FlutterPluginBinding flutterPluginBinding;
     private static MessageInterface messageInterface;
     private static AccessTokenInterface accessTokenInterface;
@@ -48,6 +49,7 @@ public class ConversationHandler {
         AccessToken token = builder.build();
         return token.toJwt();
     }
+
     /// Create new conversation #
     public static void createConversation(String conversationName, String identity, MethodChannel.Result result) {
         conversationClient.createConversation(conversationName, new CallbackListener<Conversation>() {
@@ -56,24 +58,26 @@ public class ConversationHandler {
                 addParticipant(identity, conversationName, result);
                 result.success(Strings.createConversationSuccess);
             }
+
             @Override
             public void onError(ErrorInfo errorInfo) {
-                if (errorInfo.getMessage().equals(Strings.conversationExists)){
+                if (errorInfo.getMessage().equals(Strings.conversationExists)) {
                     result.success(Strings.conversationExists);
-                }else {
+                } else {
                     result.success(Strings.createConversationFailure);
                 }
                 CallbackListener.super.onError(errorInfo);
             }
         });
     }
+
     /// Add participant in a conversation #
-    public static void addParticipant(String participantName, String conversationSid, MethodChannel.Result result){
-        conversationClient.getConversation(conversationSid,new CallbackListener<Conversation>(){
+    public static void addParticipant(String participantName, String conversationSid, MethodChannel.Result result) {
+        conversationClient.getConversation(conversationSid, new CallbackListener<Conversation>() {
             @Override
             public void onSuccess(Conversation conversation) {
                 // Retrieve the conversation object using the conversation SID
-                conversation.addParticipantByIdentity(participantName,null,new StatusListener() {
+                conversation.addParticipantByIdentity(participantName, null, new StatusListener() {
                     @Override
                     public void onSuccess() {
                         result.success(Strings.addParticipantSuccess);
@@ -86,44 +90,48 @@ public class ConversationHandler {
                     }
                 });
             }
+
             @Override
             public void onError(ErrorInfo errorInfo) {
                 CallbackListener.super.onError(errorInfo);
             }
         });
     }
+
     /// Remove participant in a conversation #
-    public static void removeParticipant(String participantName, String conversationSid, MethodChannel.Result result){
-        conversationClient.getConversation(conversationSid,new CallbackListener<Conversation>(){
+    public static void removeParticipant(String participantName, String conversationSid, MethodChannel.Result result) {
+        conversationClient.getConversation(conversationSid, new CallbackListener<Conversation>() {
             @Override
             public void onSuccess(Conversation conversation) {
                 // Retrieve the conversation object using the conversation SID
-                System.out.println("admin-"+conversation.getCreatedBy()+"---"+conversationClient.getMyIdentity());
+                System.out.println("admin-" + conversation.getCreatedBy() + "---" + conversationClient.getMyIdentity());
 
 //                if (conversationClient.getMyIdentity().equals(conversation.getCreatedBy())){
-                    conversation.removeParticipantByIdentity(participantName,new StatusListener() {
-                        @Override
-                        public void onSuccess() {
-                            result.success(Strings.removedParticipantSuccess);
-                        }
+                conversation.removeParticipantByIdentity(participantName, new StatusListener() {
+                    @Override
+                    public void onSuccess() {
+                        result.success(Strings.removedParticipantSuccess);
+                    }
 
-                        @Override
-                        public void onError(ErrorInfo errorInfo) {
-                            StatusListener.super.onError(errorInfo);
-                            result.success(errorInfo.getMessage());
-                        }
-                    });
+                    @Override
+                    public void onError(ErrorInfo errorInfo) {
+                        StatusListener.super.onError(errorInfo);
+                        result.success(errorInfo.getMessage());
+                    }
+                });
 //                }
             }
+
             @Override
             public void onError(ErrorInfo errorInfo) {
                 CallbackListener.super.onError(errorInfo);
             }
         });
     }
+
     ///Join the existing conversation #
-    public static String joinConversation(String conversationSid){
-        conversationClient.getConversation(conversationSid,new CallbackListener<Conversation>(){
+    public static String joinConversation(String conversationSid) {
+        conversationClient.getConversation(conversationSid, new CallbackListener<Conversation>() {
             @Override
             public void onSuccess(Conversation result) {
                 // Retrieve the conversation object using the conversation SID
@@ -131,12 +139,14 @@ public class ConversationHandler {
                     @Override
                     public void onSuccess() {
                     }
+
                     @Override
                     public void onError(ErrorInfo errorInfo) {
                         StatusListener.super.onError(errorInfo);
                     }
                 });
             }
+
             @Override
             public void onError(ErrorInfo errorInfo) {
                 CallbackListener.super.onError(errorInfo);
@@ -144,9 +154,10 @@ public class ConversationHandler {
         });
         return conversationSid;
     }
+
     /// Send message #
-    public static void sendMessages(String enteredMessage, String conversationSid, boolean isFromChatGpt, MethodChannel.Result result){
-        conversationClient.getConversation(conversationSid,new CallbackListener<Conversation>(){
+    public static void sendMessages(String enteredMessage, String conversationSid, boolean isFromChatGpt, MethodChannel.Result result) {
+        conversationClient.getConversation(conversationSid, new CallbackListener<Conversation>() {
             @Override
             public void onSuccess(Conversation conversation) {
                 // Join the conversation with the given participant identity
@@ -159,20 +170,23 @@ public class ConversationHandler {
                             public void onSuccess(Object data) {
                                 result.success("send");
                             }
+
                             @Override
                             public void onError(ErrorInfo errorInfo) {
                             }
                         });
             }
+
             @Override
             public void onError(ErrorInfo errorInfo) {
                 CallbackListener.super.onError(errorInfo);
             }
         });
     }
+
     /// Subscribe To Message Update #
-    public static void subscribeToMessageUpdate(String conversationSid){
-        conversationClient.getConversation(conversationSid,new CallbackListener<Conversation>(){
+    public static void subscribeToMessageUpdate(String conversationSid) {
+        conversationClient.getConversation(conversationSid, new CallbackListener<Conversation>() {
             @Override
             public void onSuccess(Conversation result) {
                 // Join the conversation with the given participant identity
@@ -181,17 +195,17 @@ public class ConversationHandler {
                     public void onMessageAdded(Message message) {
                         try {
                             Map<String, Object> messageMap = new HashMap<>();
-                            messageMap.put("sid",message.getSid());
-                            messageMap.put("author",message.getAuthor());
-                            messageMap.put("body",message.getBody());
-                            messageMap.put("dateCreated",message.getDateCreated());
-                            messageMap.put("attachedMedia",message.getAttachedMedia());
-                            messageMap.put("participant",message.getParticipant());
-                            messageMap.put("participantSid",message.getParticipantSid());
+                            messageMap.put("sid", message.getSid());
+                            messageMap.put("author", message.getAuthor());
+                            messageMap.put("body", message.getBody());
+                            messageMap.put("dateCreated", message.getDateCreated());
+                            messageMap.put("attachedMedia", message.getAttachedMedia());
+                            messageMap.put("participant", message.getParticipant());
+                            messageMap.put("participantSid", message.getParticipantSid());
                             if (messageInterface != null) {
                                 messageInterface.onMessageUpdate(messageMap);
                             }
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             //System.out.println("Exception-"+e.getMessage());
                         }
                     }
@@ -232,7 +246,7 @@ public class ConversationHandler {
 
                     @Override
                     public void onSynchronizationChanged(Conversation conversation) {
-                        System.out.println("conversation onSynchronizationChanged->"+conversation.getSynchronizationStatus().toString());
+                        System.out.println("conversation onSynchronizationChanged->" + conversation.getSynchronizationStatus().toString());
                     }
                 });
             }
@@ -245,9 +259,10 @@ public class ConversationHandler {
             }
         });
     }
+
     /// Unsubscribe To Message Update #
-    public static void unSubscribeToMessageUpdate(String conversationSid){
-        conversationClient.getConversation(conversationSid,new CallbackListener<Conversation>(){
+    public static void unSubscribeToMessageUpdate(String conversationSid) {
+        conversationClient.getConversation(conversationSid, new CallbackListener<Conversation>() {
             @Override
             public void onSuccess(Conversation result) {
                 /// Retrieve the conversation object using the conversation SID
@@ -261,47 +276,50 @@ public class ConversationHandler {
             }
         });
     }
+
     /// Get list of conversations for logged in user #
     public static List<Map<String, Object>> getConversationsList() {
         List<Conversation> conversationList = conversationClient.getMyConversations();
         //System.out.println(conversationList.size()+"");
         List<Map<String, Object>> list = new ArrayList<>();
-        for (int i=0;i<conversationList.size();i++){
+        for (int i = 0; i < conversationList.size(); i++) {
             // Map conversationMap = new HashMap<>();
             Map<String, Object> conversationMap = new HashMap<>();
-            conversationMap.put("sid",conversationList.get(i).getSid());
-            conversationMap.put("conversationName",conversationList.get(i).getFriendlyName());
-            conversationMap.put("createdBy",conversationList.get(i).getCreatedBy());
-            conversationMap.put("dateCreated",conversationList.get(i).getDateCreated());
-            conversationMap.put("uniqueName",conversationList.get(i).getUniqueName());
+            conversationMap.put("sid", conversationList.get(i).getSid());
+            conversationMap.put("conversationName", conversationList.get(i).getFriendlyName());
+            conversationMap.put("createdBy", conversationList.get(i).getCreatedBy());
+            conversationMap.put("dateCreated", conversationList.get(i).getDateCreated());
+            conversationMap.put("uniqueName", conversationList.get(i).getUniqueName());
 
             if (conversationList.get(i).getFriendlyName() != null && !conversationList.get(i).getFriendlyName().trim().isEmpty()) {
                 list.add(conversationMap);
             }
         }
         //System.out.println("list"+list);
-        return  list;
+        return list;
     }
+
     /// Get messages from the specific conversation #
     public static void getAllMessages(String conversationSid, Integer messageCount, MethodChannel.Result result) {
         List<Map<String, Object>> list = new ArrayList<>();
-        conversationClient.getConversation(conversationSid,new CallbackListener<Conversation>() {
+        conversationClient.getConversation(conversationSid, new CallbackListener<Conversation>() {
             @Override
             public void onSuccess(Conversation conversation) {
-                conversation.getLastMessages((messageCount != null) ? messageCount :1000, new CallbackListener<List<Message>>() {
+                conversation.getLastMessages((messageCount != null) ? messageCount : 1000, new CallbackListener<List<Message>>() {
                     @Override
                     public void onSuccess(List<Message> messagesList) {
-                        for (int i=0; i<messagesList.size(); i++) {
+                        for (int i = 0; i < messagesList.size(); i++) {
                             Map<String, Object> messagesMap = new HashMap<>();
-                            messagesMap.put("sid",messagesList.get(i).getSid());
-                            messagesMap.put("author",messagesList.get(i).getAuthor());
-                            messagesMap.put("body",messagesList.get(i).getBody());
-                            messagesMap.put("attributes",messagesList.get(i).getAttributes().toString());
-                            messagesMap.put("dateCreated",messagesList.get(i).getDateCreated());
+                            messagesMap.put("sid", messagesList.get(i).getSid());
+                            messagesMap.put("author", messagesList.get(i).getAuthor());
+                            messagesMap.put("body", messagesList.get(i).getBody());
+                            messagesMap.put("attributes", messagesList.get(i).getAttributes().toString());
+                            messagesMap.put("dateCreated", messagesList.get(i).getDateCreated());
                             list.add(messagesMap);
                         }
                         result.success(list);
                     }
+
                     @Override
                     public void onError(ErrorInfo errorInfo) {
                         /// Error occurred while retrieving the messages
@@ -309,12 +327,14 @@ public class ConversationHandler {
                     }
                 });
             }
+
             @Override
             public void onError(ErrorInfo errorInfo) {
                 CallbackListener.super.onError(errorInfo);
             }
         });
     }
+
     public static void initializeConversationClient(String accessToken, MethodChannel.Result result) {
         ConversationsClient.Properties props = ConversationsClient.Properties.newBuilder().createProperties();
         ConversationsClient.create(flutterPluginBinding.getApplicationContext(), accessToken, props, new CallbackListener<ConversationsClient>() {
@@ -365,7 +385,7 @@ public class ConversationHandler {
 
                     @Override
                     public void onClientSynchronization(ConversationsClient.SynchronizationStatus synchronizationStatus) {
-                        System.out.print("onClientSynchronization synchronizationStatus->"+synchronizationStatus.getValue());
+                        System.out.print("onClientSynchronization synchronizationStatus->" + synchronizationStatus.getValue());
                         if (synchronizationStatus == ConversationsClient.SynchronizationStatus.COMPLETED) {
                             System.out.print("Client Synchronized");
                         }
@@ -405,8 +425,8 @@ public class ConversationHandler {
                     public void onTokenExpired() {
                         System.out.println("onTokenExpired");
                         Map<String, Object> tokenStatusMap = new HashMap<>();
-                        tokenStatusMap.put("statusCode",401);
-                        tokenStatusMap.put("message",Strings.accessTokenExpired);
+                        tokenStatusMap.put("statusCode", 401);
+                        tokenStatusMap.put("message", Strings.accessTokenExpired);
                         onTokenStatusChange(tokenStatusMap);
                     }
 
@@ -414,39 +434,42 @@ public class ConversationHandler {
                     public void onTokenAboutToExpire() {
                         //System.out.println("onTokenAboutToExpire");
                         Map<String, Object> tokenStatusMap = new HashMap<>();
-                        tokenStatusMap.put("statusCode",200);
-                        tokenStatusMap.put("message",Strings.accessTokenWillExpire);
+                        tokenStatusMap.put("statusCode", 200);
+                        tokenStatusMap.put("message", Strings.accessTokenWillExpire);
                         onTokenStatusChange(tokenStatusMap);
                     }
                 });
                 result.success(Strings.authenticationSuccessful);
             }
+
             @Override
             public void onError(ErrorInfo errorInfo) {
                 result.success(Strings.authenticationFailed);
             }
         });
     }
+
     /// Get participants from the specific conversation #
     public static void getParticipants(String conversationSid, MethodChannel.Result result) {
-        conversationClient.getConversation(conversationSid,new CallbackListener<Conversation>() {
+        conversationClient.getConversation(conversationSid, new CallbackListener<Conversation>() {
             @Override
             public void onSuccess(Conversation conversation) {
                 List<Participant> participantList = conversation.getParticipantsList();
                 List<Map<String, Object>> participants = new ArrayList<>();
-                for (int i=0;i<participantList.size();i++) {
+                for (int i = 0; i < participantList.size(); i++) {
                     Map<String, Object> participantMap = new HashMap<>();
-                    participantMap.put("identity",participantList.get(i).getIdentity());
-                    participantMap.put("sid",participantList.get(i).getSid());
-                    participantMap.put("conversationSid",participantList.get(i).getConversation().getSid());
-                    participantMap.put("conversationCreatedBy",participantList.get(i).getConversation().getCreatedBy());
-                    participantMap.put("dateCreated",participantList.get(i).getConversation().getDateCreated());
+                    participantMap.put("identity", participantList.get(i).getIdentity());
+                    participantMap.put("sid", participantList.get(i).getSid());
+                    participantMap.put("conversationSid", participantList.get(i).getConversation().getSid());
+                    participantMap.put("conversationCreatedBy", participantList.get(i).getConversation().getCreatedBy());
+                    participantMap.put("dateCreated", participantList.get(i).getConversation().getDateCreated());
                     participantMap.put("isAdmin", Objects.equals(participantList.get(i).getConversation().getCreatedBy(), participantList.get(i).getIdentity()));
                     participants.add(participantMap);
                     System.out.println("participantMap->" + participantMap);
                 }
                 result.success(participants);
             }
+
             @Override
             public void onError(ErrorInfo errorInfo) {
                 CallbackListener.super.onError(errorInfo);
@@ -458,27 +481,24 @@ public class ConversationHandler {
 
     public static void updateAccessToken(String accessToken, MethodChannel.Result result) {
         Map<String, Object> tokenStatus = new HashMap<>();
-        conversationClient.updateToken(accessToken ,new StatusListener() {
+        conversationClient.updateToken(accessToken, new StatusListener() {
             @Override
             public void onSuccess() {
                 System.out.println("Refreshed access token.");
-                tokenStatus.put("statusCode",200);
-                tokenStatus.put("message",Strings.accessTokenRefreshed);
+                tokenStatus.put("statusCode", 200);
+                tokenStatus.put("message", Strings.accessTokenRefreshed);
                 result.success(tokenStatus);
             }
 
             @Override
             public void onError(ErrorInfo errorInfo) {
                 StatusListener.super.onError(errorInfo);
-                tokenStatus.put("statusCode",500);
-                tokenStatus.put("message",errorInfo.getMessage());
+                tokenStatus.put("statusCode", 500);
+                tokenStatus.put("message", errorInfo.getMessage());
                 result.success(tokenStatus);
             }
         });
     }
-
-
-
 
 
     public static void sendTypingIndicator(String conversationSid, MethodChannel.Result result) {
@@ -499,14 +519,15 @@ public class ConversationHandler {
             }
         });
     }
+
     public void setListener(MessageInterface listener) {
         ConversationHandler.messageInterface = listener;
     }
+
     public void setTokenListener(AccessTokenInterface listener) {
         ConversationHandler.accessTokenInterface = listener;
     }
 
-    }
     public static void onTokenStatusChange(Map status) {
         // Pass the result through the messageInterface
         //System.out.println("accessTokenInterface->" + accessTokenInterface.toString());
