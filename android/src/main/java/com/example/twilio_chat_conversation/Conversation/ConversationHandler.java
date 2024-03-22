@@ -480,15 +480,15 @@ public class ConversationHandler {
             public void onSuccess(Conversation conversation) {
                 if (conversation != null) {
                     conversation.typing();
-                    completion.onSuccess("Typing indicator sent");
+                    result.success("Typing indicator sent");
                 } else {
-                    completion.onError(new Throwable("Conversation not found"));
+                    result.error("CONVERSATION_NOT_FOUND", "Conversation not found", null);
                 }
             }
 
             @Override
             public void onError(ErrorInfo errorInfo) {
-                completion.onError(new Throwable("Failed to get conversation: " + errorInfo.getMessage()));
+                result.error("CONVERSATION_NOT_FOUND", errorInfo.getMessage(), null);
             }
         });
     }
