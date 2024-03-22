@@ -6,7 +6,6 @@ class ConversationsHandler: NSObject, TwilioConversationsClientDelegate {
     
     
     
-    // MARK: Conversations variables
     private var client: TwilioConversationsClient?
     weak var conversationDelegate: ConversationDelegate?
 //    weak var tokenDelegate:TokenDelegate?
@@ -23,11 +22,27 @@ class ConversationsHandler: NSObject, TwilioConversationsClientDelegate {
                 self.getMessageInDictionary(message) { messageDictionary in
             if let messageDict = messageDictionary {
                 var updatedMessage: [String: Any] = [:]
+                print("updatedMessage-----")
+                print(updatedMessage)
                 updatedMessage["conversationSid"] = conversation.sid ?? ""
                 updatedMessage["message"] = messageDict
                 self.conversationDelegate?.onMessageUpdate(message: updatedMessage, messageSubscriptionId: self.messageSubscriptionId)
             }
         }
+    }
+
+    func conversationsClient(_ client: TwilioConversationsClient, typingStartedOnConversation conversation: TCHConversation, participant: TCHParticipant) {
+       print("Typing started")
+       self.conversationDelegate?.onTypingUpdate(isTyping: true)
+        // Implement your logic to handle the typing started event
+        // For example, you could notify the Flutter side via an event channel
+    }
+
+    func conversationsClient(_ client: TwilioConversationsClient, typingEndedOnConversation conversation: TCHConversation, participant: TCHParticipant) {
+        print("Typing ended")
+        self.conversationDelegate?.onTypingUpdate(isTyping: false)
+        // Implement your logic to handle the typing ended event
+        // Similar to typingStarted, notify Flutter about the event
     }
     
     func conversationsClientTokenWillExpire(_ client: TwilioConversationsClient) {

@@ -246,7 +246,6 @@ class ChatRepositoryImpl implements ChatRepository {
           .sendTypingIndicator(conversationSid);
       return result;
     } on PlatformException catch (e) {
-      print('EROROR $e');
       return null;
     }
   }
