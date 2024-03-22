@@ -17,31 +17,32 @@ class TwilioChatConversation {
       EventChannel('twilio_chat_conversation/onTokenStatusChange');
 
   // Stream controllers for message updates and token status changes.
-  static final StreamController<Map> _messageUpdateController =
-      StreamController<Map>.broadcast();
+  static final _messageUpdateController = StreamController.broadcast();
   static final StreamController<Map> _tokenStatusController =
       StreamController<Map>.broadcast();
 
   /// Stream for receiving incoming messages.
-  Stream<Map> get onMessageReceived => _messageUpdateController.stream;
+  Stream get onMessageReceived => _messageUpdateController.stream;
 
   Future<String?> getPlatformVersion() {
     return TwilioChatConversationPlatform.instance.getPlatformVersion();
   }
 
   /// Generates a Twilio Chat token.
-  Future<String?> generateToken(
-      {required String accountSid,
-      required String apiKey,
-      required String apiSecret,
-      required String identity,
-      required serviceSid}) {
+  Future<String?> generateToken({
+    required String accountSid,
+    required String apiKey,
+    required String apiSecret,
+    required String identity,
+    required serviceSid,
+  }) {
     return TwilioChatConversationPlatform.instance.generateToken(
-        accountSid: accountSid,
-        apiKey: apiKey,
-        apiSecret: apiSecret,
-        identity: identity,
-        serviceSid: serviceSid);
+      accountSid: accountSid,
+      apiKey: apiKey,
+      apiSecret: apiSecret,
+      identity: identity,
+      serviceSid: serviceSid,
+    );
   }
 
   /// Initializes the Twilio Conversation Client with an access token.
