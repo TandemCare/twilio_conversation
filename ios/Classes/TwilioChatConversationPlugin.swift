@@ -213,7 +213,7 @@ extension TwilioChatConversationPlugin : ConversationDelegate {
             }
         }
 
-    func onTypingUpdate(isTyping: [bool]) {
+    func onTypingUpdate(isTyping: [Bool]) {
         self.eventSink?(isTyping)
     }
 }
