@@ -6,7 +6,6 @@ public class TwilioChatConversationPlugin: NSObject,FlutterPlugin,FlutterStreamH
     var conversationsHandler = ConversationsHandler()
     var eventSink: FlutterEventSink?
     var tokenEventSink: FlutterEventSink?
-    var typingEventSink: FlutterEventSink?
     private var conversationsHandlers: ConversationsHandler?
     
     public func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
@@ -25,13 +24,11 @@ public class TwilioChatConversationPlugin: NSObject,FlutterPlugin,FlutterStreamH
     let channel = FlutterMethodChannel(name: "twilio_chat_conversation", binaryMessenger: registrar.messenger())
     let messageEventChannel = FlutterEventChannel(name: "twilio_chat_conversation/onMessageUpdated", binaryMessenger: registrar.messenger())
     let tokenEventChannel = FlutterEventChannel(name: "twilio_chat_conversation/onTokenStatusChange", binaryMessenger: registrar.messenger())
-    let typingEventChannel = FlutterEventChannel(name: "twilio_chat_conversation/typing", binaryMessenger: registrar.messenger())
 
     let instance = TwilioChatConversationPlugin()
     registrar.addMethodCallDelegate(instance, channel: channel)
     messageEventChannel.setStreamHandler(instance)
     tokenEventChannel.setStreamHandler(instance)
-    typingEventChannel.setStreamHandler(instance)
   }
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {

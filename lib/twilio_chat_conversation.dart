@@ -172,11 +172,8 @@ class TwilioChatConversation {
     _messageEventChannel
         .receiveBroadcastStream(conversationSid)
         .listen((dynamic message) {
-      print("EVENT FROM SWIFT $message");
       if (message != null) {
-        if (message["author"] != null && message["body"] != null) {
-          _messageUpdateController.add(message);
-        }
+        _messageUpdateController.add(message);
       }
     });
   }

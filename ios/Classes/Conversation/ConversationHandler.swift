@@ -33,17 +33,11 @@ class ConversationsHandler: NSObject, TwilioConversationsClientDelegate {
 
 
     func conversationsClient(_ client: TwilioConversationsClient, typingStartedOn conversation: TCHConversation, participant: TCHParticipant) {
-       print("Typing started")
        self.conversationDelegate?.onTypingUpdate(isTyping: true)
-        // Implement your logic to handle the typing started event
-        // For example, you could notify the Flutter side via an event channel
     }
 
     func conversationsClient(_ client: TwilioConversationsClient, typingEndedOn conversation: TCHConversation, participant: TCHParticipant) {
-        print("Typing ended")
         self.conversationDelegate?.onTypingUpdate(isTyping: false)
-        // Implement your logic to handle the typing ended event
-        // Similar to typingStarted, notify Flutter about the event
     }
     
     func conversationsClientTokenWillExpire(_ client: TwilioConversationsClient) {
