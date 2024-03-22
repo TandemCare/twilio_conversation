@@ -22,8 +22,6 @@ class ConversationsHandler: NSObject, TwilioConversationsClientDelegate {
                 self.getMessageInDictionary(message) { messageDictionary in
             if let messageDict = messageDictionary {
                 var updatedMessage: [String: Any] = [:]
-                print("updatedMessage-----")
-                print(updatedMessage)
                 updatedMessage["conversationSid"] = conversation.sid ?? ""
                 updatedMessage["message"] = messageDict
                 self.conversationDelegate?.onMessageUpdate(message: updatedMessage, messageSubscriptionId: self.messageSubscriptionId)

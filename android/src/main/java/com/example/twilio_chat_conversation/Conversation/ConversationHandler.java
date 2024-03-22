@@ -184,10 +184,13 @@ public class ConversationHandler {
                             messageMap.put("sid",message.getSid());
                             messageMap.put("author",message.getAuthor());
                             messageMap.put("body",message.getBody());
-                            messageMap.put("attributes",message.getAttributes().toString());
                             messageMap.put("dateCreated",message.getDateCreated());
-                            //System.out.println("messageMap-"+message.getDateCreated());
-                            triggerEvent(messageMap);
+                            messageMap.put("attachedMedia",message.getAttachedMedia());
+                            messageMap.put("participant",message.getParticipant());
+                            messageMap.put("participantSid",message.getParticipantSid());
+                            if (messageInterface != null) {
+                                messageInterface.onMessageUpdate(messageMap);
+                            }
                         }catch (Exception e){
                             //System.out.println("Exception-"+e.getMessage());
                         }
@@ -502,11 +505,7 @@ public class ConversationHandler {
     public void setTokenListener(AccessTokenInterface listener) {
         ConversationHandler.accessTokenInterface = listener;
     }
-    public static void triggerEvent(Map message) {
-        // Pass the result through the messageInterface
-        if (messageInterface != null) {
-            messageInterface.onMessageUpdate(message);
-        }
+
     }
     public static void onTokenStatusChange(Map status) {
         // Pass the result through the messageInterface
