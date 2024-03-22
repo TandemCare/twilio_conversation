@@ -202,9 +202,7 @@ public class ConversationHandler {
                             messageMap.put("attachedMedia", message.getAttachedMedia());
                             messageMap.put("participant", message.getParticipant());
                             messageMap.put("participantSid", message.getParticipantSid());
-                            if (messageInterface != null) {
-                                messageInterface.onMessageUpdate(messageMap);
-                            }
+                            messageInterface.onMessageUpdate(messageMap);
                         } catch (Exception e) {
                             //System.out.println("Exception-"+e.getMessage());
                         }
