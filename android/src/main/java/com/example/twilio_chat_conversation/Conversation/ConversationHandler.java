@@ -474,7 +474,11 @@ public class ConversationHandler {
         });
     }
 
-    public void sendTypingIndicator(String conversationSid, CallbackListener<String> completion) {
+
+
+
+
+    public void sendTypingIndicator(String conversationSid, MethodChannel.Result result) {
         conversationClient.getConversation(conversationSid, new CallbackListener<Conversation>() {
             @Override
             public void onSuccess(Conversation conversation) {
