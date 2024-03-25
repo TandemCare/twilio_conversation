@@ -146,18 +146,11 @@ class ConversationsHandler: NSObject, TwilioConversationsClientDelegate {
     }
 
     func addParticipants(conversationSid:String,participantName:String,_ completion: @escaping(TCHResult?) -> Void) {
-        self.getConversationFromId(conversationSid: conversationSid) { conversation in
-              guard let conversation = conversation else {
-                  // Handle error: conversation not found
-                  let errorResult = TCHResult.error(withCode: 0, message: "Conversation not found")
-                  completion(errorResult)
-                  return
-              }
-
-              conversation.addParticipant(byIdentity: participantName, attributes: nil) { status in
-                  completion(status)
-              }
-          }
+          self.getConversationFromId(conversationSid: conversationSid) { conversation in
+                conversation?.addParticipant(byIdentity: participantName,completion: { status in
+                    completion(status)
+                })
+            }
     }
 
     func removeParticipants(conversationSid:String,participantName:String,_ completion: @escaping(TCHResult?) -> Void) {
