@@ -132,7 +132,11 @@ public class TwilioChatConversationPlugin: NSObject,FlutterPlugin,FlutterStreamH
       case Methods.addParticipant:
           self.conversationsHandler.addParticipants(conversationSid: arguments?["conversationSid"] as! String, participantName: arguments?["participantName"] as! String) { status in
               if let addParticipantStatus = status {
-                result(status)
+                  if (addParticipantStatus.isSuccessful){
+                      result(Strings.addedParticipantSuccess)
+                  }else {
+                      result(addParticipantStatus.resultText)
+                  }
               }
           }
 
