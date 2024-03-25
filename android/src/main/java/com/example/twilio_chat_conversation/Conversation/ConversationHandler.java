@@ -200,7 +200,7 @@ public class ConversationHandler {
                             messageMap.put("body", message.getBody());
                             messageMap.put("dateCreated", message.getDateCreated());
                             messageMap.put("attachedMedia", message.getAttachedMedia());
-                            messageMap.put("participant", message.getParticipant());
+                            messageMap.put("participant", mapParticipantDetails(message.getParticipant()));
                             messageMap.put("participantSid", message.getParticipantSid());
                             messageInterface.onMessageUpdate(messageMap);
                         } catch (Exception e) {
@@ -454,14 +454,8 @@ public class ConversationHandler {
             public void onSuccess(Conversation conversation) {
                 List<Participant> participantList = conversation.getParticipantsList();
                 List<Map<String, Object>> participants = new ArrayList<>();
-                for (int i = 0; i < participantList.size(); i++) {
-                    Map<String, Object> participantMap = new HashMap<>();
-                    participantMap.put("identity", participantList.get(i).getIdentity());
-                    participantMap.put("sid", participantList.get(i).getSid());
-                    participantMap.put("conversationSid", participantList.get(i).getConversation().getSid());
-                    participantMap.put("conversationCreatedBy", participantList.get(i).getConversation().getCreatedBy());
-                    participantMap.put("dateCreated", participantList.get(i).getConversation().getDateCreated());
-                    participantMap.put("isAdmin", Objects.equals(participantList.get(i).getConversation().getCreatedBy(), participantList.get(i).getIdentity()));
+                for (Participant participant : participantList) {
+                    Map<String, Object> participantMap = mapParticipantDetails(participant);
                     participants.add(participantMap);
                     System.out.println("participantMap->" + participantMap);
                 }
@@ -475,6 +469,17 @@ public class ConversationHandler {
                 result.success(participantList);
             }
         });
+    }
+
+    private static Map<String, Object> mapParticipantDetails(Participant participant) {
+        Map<String, Object> participantMap = new HashMap<>();
+        participantMap.put("identity", participant.getIdentity());
+        participantMap.put("sid", participant.getSid());
+        participantMap.put("conversationSid", participant.getConversation().getSid());
+        participantMap.put("conversationCreatedBy", participant.getConversation().getCreatedBy());
+        participantMap.put("dateCreated", participant.getConversation().getDateCreated());
+        participantMap.put("isAdmin", Objects.equals(participant.getConversation().getCreatedBy(), participant.getIdentity()));
+        return participantMap;
     }
 
     public static void updateAccessToken(String accessToken, MethodChannel.Result result) {
