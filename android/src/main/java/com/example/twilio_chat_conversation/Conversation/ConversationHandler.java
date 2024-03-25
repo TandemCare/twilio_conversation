@@ -200,6 +200,7 @@ public class ConversationHandler {
                             messageMap.put("body",message.getBody());
                             messageMap.put("attributes",message.getAttributes().toString());
                             messageMap.put("dateCreated",message.getDateCreated());
+                            messageMap.put("conversationSid",message.getConversationSid());
                             //System.out.println("messageMap-"+message.getDateCreated());
                             System.out.println("messageMap-"+ messageMap.toString());
                             messageInterface.onMessageUpdate(messageMap);
