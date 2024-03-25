@@ -33,6 +33,7 @@ public class TwilioChatConversationPlugin: NSObject,FlutterPlugin,FlutterStreamH
     registrar.addMethodCallDelegate(instance, channel: channel)
     messageEventChannel.setStreamHandler(instance)
     tokenEventChannel.setStreamHandler(instance)
+    participantsEventChannel.setStreamHandler(instance)
   }
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
