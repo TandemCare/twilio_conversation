@@ -6,17 +6,20 @@ public class TwilioChatConversationPlugin: NSObject,FlutterPlugin,FlutterStreamH
     var conversationsHandler = ConversationsHandler()
     var eventSink: FlutterEventSink?
     var tokenEventSink: FlutterEventSink?
+    var participantsEventSink: FlutterEventSink?
     private var conversationsHandlers: ConversationsHandler?
     
     public func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
         self.eventSink = events
         self.conversationsHandler.tokenEventSink = events
+        self.conversationsHandler.participantsEventSink = events
         return nil
     }
     
     public func onCancel(withArguments arguments: Any?) -> FlutterError? {
         self.eventSink = nil
         self.tokenEventSink = nil
+        self.participantsEventSink = nil
         return nil
     }
     
@@ -24,6 +27,7 @@ public class TwilioChatConversationPlugin: NSObject,FlutterPlugin,FlutterStreamH
     let channel = FlutterMethodChannel(name: "twilio_chat_conversation", binaryMessenger: registrar.messenger())
     let messageEventChannel = FlutterEventChannel(name: "twilio_chat_conversation/onMessageUpdated", binaryMessenger: registrar.messenger())
     let tokenEventChannel = FlutterEventChannel(name: "twilio_chat_conversation/onTokenStatusChange", binaryMessenger: registrar.messenger())
+    let participantsEventChannel = FlutterEventChannel(name: "twilio_chat_conversation/onParticipantUpdate", binaryMessenger: registrar.messenger())
 
     let instance = TwilioChatConversationPlugin()
     registrar.addMethodCallDelegate(instance, channel: channel)
@@ -213,4 +217,9 @@ extension TwilioChatConversationPlugin : ConversationDelegate {
     func onTypingUpdate(isTyping: Bool) {
         self.eventSink?(isTyping)
     }
+
+    func onParticipantAdded(conversationSid: String?, participantIdentity: String?){
+        self.participantsEventSink?(participantIdentity)
+    }
+
 }

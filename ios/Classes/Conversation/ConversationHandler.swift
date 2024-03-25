@@ -37,7 +37,11 @@ class ConversationsHandler: NSObject, TwilioConversationsClientDelegate {
     func conversationsClient(_ client: TwilioConversationsClient, typingEndedOn conversation: TCHConversation, participant: TCHParticipant) {
         self.conversationDelegate?.onTypingUpdate(isTyping: false)
     }
-    
+
+    func conversationsClient(_ client: TwilioConversationsClient, participantAdded participant: TCHParticipant, toConversation conversation: TCHConversation) {
+        self.conversationDelegate?.onParticipantAdded(conversationSid: conversation.sid, participantIdentity: participant.identity)
+    }
+
     func conversationsClientTokenWillExpire(_ client: TwilioConversationsClient) {
         print("Access token will expire.->\(String(describing: tokenEventSink))")
         var tokenStatusMap: [String: Any] = [:]

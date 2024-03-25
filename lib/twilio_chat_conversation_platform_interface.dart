@@ -98,8 +98,8 @@ abstract class TwilioChatConversationPlatform extends PlatformInterface {
   }
 
   Future<String?> removeParticipant({
-    required conversationSid,
-    required participantName,
+    required String conversationSid,
+    required String participantName,
   }) {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }

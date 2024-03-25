@@ -13,16 +13,20 @@ class TwilioChatConversation {
   // Event channels for message updates and token status changes.
   static const EventChannel _messageEventChannel =
       EventChannel('twilio_chat_conversation/onMessageUpdated');
+
   static const EventChannel _tokenEventChannel =
       EventChannel('twilio_chat_conversation/onTokenStatusChange');
 
+  static const EventChannel _participantsEventChannel =
+      EventChannel('twilio_chat_conversation/onParticipantUpdate');
+
   // Stream controllers for message updates and token status changes.
   static final _messageUpdateController = StreamController.broadcast();
+  static final _participantsUpdateController = StreamController.broadcast();
   static final StreamController<Map> _tokenStatusController =
       StreamController<Map>.broadcast();
 
   /// Stream for receiving incoming messages.
-  Stream get onMessageReceived => _messageUpdateController.stream;
 
   Future<String?> getPlatformVersion() {
     return TwilioChatConversationPlatform.instance.getPlatformVersion();
@@ -130,20 +134,28 @@ class TwilioChatConversation {
   ///
   /// - [participantName]: The name of the participant to be added.
   /// - [conversationSid]: The ID of the conversation in which to add the participant.
-  Future<String?> addParticipant(
-      {required participantName, required conversationSid}) {
+  Future<String?> addParticipant({
+    required String participantName,
+    required String conversationSid,
+  }) {
     return TwilioChatConversationPlatform.instance.addParticipant(
-        conversationSid: conversationSid, participantName: participantName);
+      conversationSid: conversationSid,
+      participantName: participantName,
+    );
   }
 
   /// Removes a participant from a conversation.
   ///
   /// - [participantName]: The name of the participant to be removed.
   /// - [conversationSid]: The ID of the conversation from which to remove the participant.
-  Future<String?> removeParticipant(
-      {required participantName, required conversationSid}) {
+  Future<String?> removeParticipant({
+    required String participantName,
+    required String conversationSid,
+  }) {
     return TwilioChatConversationPlatform.instance.removeParticipant(
-        conversationSid: conversationSid, participantName: participantName);
+      conversationSid: conversationSid,
+      participantName: participantName,
+    );
   }
 
   /// Receives messages for a specific conversation.
@@ -202,10 +214,21 @@ class TwilioChatConversation {
   }
 
   /// Stream for receiving token status changes.
+  Stream get onMessageReceived => _messageUpdateController.stream;
+
   Stream<Map> get onTokenStatusChange {
     _tokenEventChannel.receiveBroadcastStream().listen((dynamic tokenStatus) {
       _tokenStatusController.add(tokenStatus);
     });
     return _tokenStatusController.stream;
+  }
+
+  Stream get onParticipantUpdate {
+    _participantsEventChannel
+        .receiveBroadcastStream()
+        .listen((dynamic participant) {
+      _participantsUpdateController.add(participant);
+    });
+    return _participantsUpdateController.stream;
   }
 }
