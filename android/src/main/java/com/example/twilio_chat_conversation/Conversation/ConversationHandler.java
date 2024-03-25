@@ -195,17 +195,17 @@ public class ConversationHandler {
                     public void onMessageAdded(Message message) {
                         try {
                             Map<String, Object> messageMap = new HashMap<>();
-                            messageMap.put("sid", message.getSid());
-                            messageMap.put("author", message.getAuthor());
-                            messageMap.put("body", message.getBody());
-                            messageMap.put("dateCreated", message.getDateCreated());
-//                            messageMap.put("attachedMedia", message.getAttachedMedia());
-//                            messageMap.put("participant", mapParticipantDetails(message.getParticipant()));
-//                            messageMap.put("participantSid", message.getParticipantSid());
+                            messageMap.put("sid",message.getSid());
+                            messageMap.put("author",message.getAuthor());
+                            messageMap.put("body",message.getBody());
+                            messageMap.put("attributes",message.getAttributes().toString());
+                            messageMap.put("dateCreated",message.getDateCreated());
+                            //System.out.println("messageMap-"+message.getDateCreated());
+                            System.out.println("messageMap-"+ messageMap.toString());
                             messageInterface.onMessageUpdate(messageMap);
                         } catch (Exception e) {
                             System.out.println("Exception-"+e.getMessage());
-                            e.printStackTrace();
+                            System.out.println("Stack trace: "+ e.printStackTrace());
                         }
                     }
 
