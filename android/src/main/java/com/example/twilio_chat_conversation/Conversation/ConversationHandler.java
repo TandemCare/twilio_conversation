@@ -191,7 +191,7 @@ public class ConversationHandler {
             public void onSuccess(Conversation result) {
                 // Join the conversation with the given participant identity
                 result.addListener(new ConversationListener() {
-                    @Override
+                    @Overridef
                     public void onMessageAdded(Message message) {
                         try {
                             Map<String, Object> messageMap = new HashMap<>();
@@ -199,12 +199,13 @@ public class ConversationHandler {
                             messageMap.put("author", message.getAuthor());
                             messageMap.put("body", message.getBody());
                             messageMap.put("dateCreated", message.getDateCreated());
-                            messageMap.put("attachedMedia", message.getAttachedMedia());
+//                            messageMap.put("attachedMedia", message.getAttachedMedia());
 //                            messageMap.put("participant", mapParticipantDetails(message.getParticipant()));
                             messageMap.put("participantSid", message.getParticipantSid());
                             messageInterface.onMessageUpdate(messageMap);
                         } catch (Exception e) {
                             System.out.println("Exception-"+e.getMessage());
+                            e.printStackTrace();
                         }
                     }
 
