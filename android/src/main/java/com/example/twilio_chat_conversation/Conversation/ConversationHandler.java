@@ -205,7 +205,7 @@ public class ConversationHandler {
                             messageInterface.onMessageUpdate(messageMap);
                         } catch (Exception e) {
                             System.out.println("Exception-"+e.getMessage());
-                            System.out.println("Stack trace: "+ e.printStackTrace());
+                            e.printStackTrace();
                         }
                     }
 
