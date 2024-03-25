@@ -200,7 +200,7 @@ public class ConversationHandler {
                             messageMap.put("body", message.getBody());
                             messageMap.put("dateCreated", message.getDateCreated());
                             messageMap.put("attachedMedia", message.getAttachedMedia());
-                            messageMap.put("participant", mapParticipantDetails(message.getParticipant()));
+//                            messageMap.put("participant", mapParticipantDetails(message.getParticipant()));
                             messageMap.put("participantSid", message.getParticipantSid());
                             messageInterface.onMessageUpdate(messageMap);
                         } catch (Exception e) {
