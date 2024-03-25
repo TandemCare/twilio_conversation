@@ -204,7 +204,7 @@ public class ConversationHandler {
                             messageMap.put("participantSid", message.getParticipantSid());
                             messageInterface.onMessageUpdate(messageMap);
                         } catch (Exception e) {
-                            //System.out.println("Exception-"+e.getMessage());
+                            System.out.println("Exception-"+e.getMessage());
                         }
                     }
 

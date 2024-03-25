@@ -102,7 +102,7 @@ public class TwilioChatConversationPlugin implements FlutterPlugin, MethodCallHa
         ConversationHandler.updateAccessToken(call.argument("accessToken"),result);
         break;
       case Methods.sendTypingIndicator:
-        ConversationHandler.sendTypingIndicator(call.argument("sendTypingIndicator"),result);
+        ConversationHandler.sendTypingIndicator(call.argument("conversationSid"),result);
         break;
       default:
         break;
