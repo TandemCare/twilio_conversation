@@ -12,7 +12,7 @@ public class TwilioChatConversationPlugin: NSObject,FlutterPlugin,FlutterStreamH
     public func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
         self.eventSink = events
         self.conversationsHandler.tokenEventSink = events
-        self.conversationsHandler.participantsEventSink = events
+        self.participantsEventSink = events
         return nil
     }
     
