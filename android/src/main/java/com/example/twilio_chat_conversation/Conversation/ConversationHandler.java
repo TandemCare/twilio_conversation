@@ -191,7 +191,7 @@ public class ConversationHandler {
             public void onSuccess(Conversation result) {
                 // Join the conversation with the given participant identity
                 result.addListener(new ConversationListener() {
-                    @Overridef
+                    @Override
                     public void onMessageAdded(Message message) {
                         try {
                             Map<String, Object> messageMap = new HashMap<>();
