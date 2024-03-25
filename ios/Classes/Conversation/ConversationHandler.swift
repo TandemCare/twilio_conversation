@@ -146,11 +146,11 @@ class ConversationsHandler: NSObject, TwilioConversationsClientDelegate {
     }
 
     func addParticipants(conversationSid:String,participantName:String,_ completion: @escaping(TCHResult?) -> Void) {
-          self.getConversationFromId(conversationSid: conversationSid) { conversation in
-                conversation?.addParticipant(byIdentity: participantName,completion: { status in
-                    completion(status)
-                })
-            }
+        self.getConversationFromId(conversationSid: conversationSid) { conversation in
+            conversation?.addParticipant(byIdentity: participantName, attributes: nil,completion: { status in
+                completion(status)
+            })
+        }
     }
 
     func removeParticipants(conversationSid:String,participantName:String,_ completion: @escaping(TCHResult?) -> Void) {
