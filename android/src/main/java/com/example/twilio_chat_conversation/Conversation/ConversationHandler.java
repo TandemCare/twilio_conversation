@@ -531,15 +531,15 @@ public class ConversationHandler {
         });
     }
 
-    public void setListener(MessageInterface listener) {
+    public static void setListener(MessageInterface listener) {
         ConversationHandler.messageInterface = listener;
     }
 
-    public void setTokenListener(AccessTokenInterface listener) {
+    public static void setTokenListener(AccessTokenInterface listener) {
         ConversationHandler.accessTokenInterface = listener;
     }
 
-    public void setParticipantListener(ParticipantInterface listener){
+    public static void setParticipantListener(ParticipantInterface listener){
         ConversationHandler.participantInterface = listener;
     }
 

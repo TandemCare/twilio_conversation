@@ -34,7 +34,6 @@ public class TwilioChatConversationPlugin implements FlutterPlugin, MethodCallHa
     private EventChannel.EventSink eventSink;
     private EventChannel.EventSink tokenEventSink;
     private EventChannel.EventSink participantsEventSink;
-    private ConversationHandler conversationHandler = new ConversationHandler();
 
     @Override
     public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
@@ -60,7 +59,7 @@ public class TwilioChatConversationPlugin implements FlutterPlugin, MethodCallHa
         @Override
         public void onListen(Object arguments, EventSink events) {
             this.eventSink = events;
-            conversationHandler.setListener(new MessageInterface() {
+            ConversationHandler.setListener(new MessageInterface() {
                 @Override
                 public void onMessageUpdate(Map<String, Object> message) {
                     if (eventSink != null) {
@@ -92,7 +91,7 @@ public class TwilioChatConversationPlugin implements FlutterPlugin, MethodCallHa
         public void onListen(Object arguments, EventSink events) {
             this.eventSink = events;
 
-            conversationHandler.setTokenListener(new AccessTokenInterface() {
+            ConversationHandler.setTokenListener(new AccessTokenInterface() {
                 @Override
                 public void onTokenStatusChange(Map message) {
                     /// Pass the message result back to the Flutter side
@@ -119,7 +118,7 @@ public class TwilioChatConversationPlugin implements FlutterPlugin, MethodCallHa
         public void onListen(Object arguments, EventSink events) {
             this.eventSink = events;
 
-            conversationHandler.setParticipantListener(new ParticipantInterface() {
+            ConversationHandler.setParticipantListener(new ParticipantInterface() {
                 @Override
                 public void onParticipantAdded(String conversationSid, String participantIdentity) {
                     /// Pass the message result back to the Flutter side
