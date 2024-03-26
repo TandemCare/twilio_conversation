@@ -2,6 +2,7 @@ package com.example.twilio_chat_conversation.Conversation;
 
 import com.example.twilio_chat_conversation.Interface.AccessTokenInterface;
 import com.example.twilio_chat_conversation.Interface.MessageInterface;
+import com.example.twilio_chat_conversation.Interface.ParticipantInterface;
 import com.example.twilio_chat_conversation.Utility.Strings;
 import com.twilio.conversations.Attributes;
 import com.twilio.conversations.CallbackListener;
@@ -31,6 +32,7 @@ public class ConversationHandler {
     public static ConversationsClient conversationClient;
     public static FlutterPlugin.FlutterPluginBinding flutterPluginBinding;
     private static MessageInterface messageInterface;
+    private static ParticipantInterface participantInterface;
     private static AccessTokenInterface accessTokenInterface;
 
     /// Generate token and authenticate user #
@@ -224,7 +226,9 @@ public class ConversationHandler {
 
                     @Override
                     public void onParticipantAdded(Participant participant) {
-                        messageInterface.onParticipantAdded(participant.getConversation().getSid(), participant.getIdentity());
+                        System.out.println("onParticipantAdded->");
+                        System.out.println("onParticipantAdded->" + participant.getIdentity());
+                        participantInterface.onParticipantAdded(participant.getConversation().getSid(), participant.getIdentity());
                     }
 
                     @Override
@@ -533,6 +537,10 @@ public class ConversationHandler {
 
     public void setTokenListener(AccessTokenInterface listener) {
         ConversationHandler.accessTokenInterface = listener;
+    }
+
+    public void setParticipantListener(ParticipantInterface listener){
+        ConversationHandler.participantInterface = listener;
     }
 
     public static void onTokenStatusChange(Map status) {

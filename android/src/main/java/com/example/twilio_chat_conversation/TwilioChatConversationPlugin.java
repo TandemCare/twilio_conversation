@@ -19,7 +19,7 @@ import io.flutter.plugin.common.EventChannel.EventSink;
 import io.flutter.plugin.common.EventChannel.StreamHandler;
 
 /** TwilioChatConversationPlugin */
-public class TwilioChatConversationPlugin implements FlutterPlugin, MethodCallHandler , StreamHandler , MessageInterface, AccessTokenInterface {
+public class TwilioChatConversationPlugin implements FlutterPlugin, MethodCallHandler , StreamHandler , MessageInterface, AccessTokenInterface, ParticipantInterface {
   /// The MethodChannel that will the communication between Flutter and native Android
   /// This local reference serves to register the plugin with the Flutter Engine and unregister it
   /// when the Flutter Engine is detached from the Activity
@@ -129,6 +129,7 @@ public class TwilioChatConversationPlugin implements FlutterPlugin, MethodCallHa
     ConversationHandler conversationHandler = new ConversationHandler();
     conversationHandler.setListener(this);
     conversationHandler.setTokenListener(this);
+    conversationHandler.setParticipantListener(this);
   }
 
   @Override

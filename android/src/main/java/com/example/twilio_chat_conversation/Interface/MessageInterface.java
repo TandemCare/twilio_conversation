@@ -9,7 +9,4 @@ public interface MessageInterface {
     default void onTypingUpdate(boolean isTyping) {
     }
 
-    default void onParticipantAdded(String conversationSid, String participantIdentity) {
-    }
-
 }
