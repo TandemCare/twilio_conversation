@@ -71,10 +71,14 @@ class TwilioChatConversation {
   /// - [identity]: The identity of the user initiating the conversation.
   ///
   /// Returns a [String] indicating the result of the operation, or `null` if it fails.
-  Future<String?> createConversation(
-      {required String conversationName, required String identity}) {
+  Future<String?> createConversation({
+    required String conversationName,
+    required String identity,
+  }) {
     return TwilioChatConversationPlatform.instance.createConversation(
-        conversationName: conversationName, identity: identity);
+      conversationName: conversationName,
+      identity: identity,
+    );
   }
 
   /// Retrieves a list of conversations.
