@@ -221,7 +221,7 @@ extension TwilioChatConversationPlugin : ConversationDelegate {
     }
 
     func onParticipantAdded(conversationSid: String?, participantIdentity: String?){
-        self.eventSink?(isTyping)
+        self.eventSink?(participantIdentity)
         self.participantsEventSink?(participantIdentity)
     }
 
