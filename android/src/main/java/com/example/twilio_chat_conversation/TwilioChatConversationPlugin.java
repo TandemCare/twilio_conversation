@@ -36,14 +36,64 @@ public class TwilioChatConversationPlugin implements FlutterPlugin, MethodCallHa
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
     channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "twilio_chat_conversation");
     channel.setMethodCallHandler(this);
+
+    // Initialize and set StreamHandlers for each EventChannel
     eventChannel = new EventChannel(flutterPluginBinding.getBinaryMessenger(), "twilio_chat_conversation/onMessageUpdated");
-    eventChannel.setStreamHandler(this);
+    eventChannel.setStreamHandler(new MessageUpdateStreamHandler());
+
     tokenEventChannel = new EventChannel(flutterPluginBinding.getBinaryMessenger(), "twilio_chat_conversation/onTokenStatusChange");
-    tokenEventChannel.setStreamHandler(this);
+    tokenEventChannel.setStreamHandler(new TokenStatusChangeStreamHandler());
+
     participantsEventChannel = new EventChannel(flutterPluginBinding.getBinaryMessenger(), "twilio_chat_conversation/onParticipantUpdate");
-    participantsEventChannel.setStreamHandler(this);
+    participantsEventChannel.setStreamHandler(new ParticipantUpdateStreamHandler());
 
     ConversationHandler.flutterPluginBinding = flutterPluginBinding;
+  }
+
+  private static class MessageUpdateStreamHandler implements StreamHandler {
+    private EventSink eventSink;
+
+    @Override
+    public void onListen(Object arguments, EventSink events) {
+      this.eventSink = events;
+      // Setup listener that will use this.eventSink to send message updates
+    }
+
+    @Override
+    public void onCancel(Object arguments) {
+      this.eventSink = null;
+    }
+  }
+
+  // Separate StreamHandler for token status changes
+  private static class TokenStatusChangeStreamHandler implements StreamHandler {
+    private EventSink eventSink;
+
+    @Override
+    public void onListen(Object arguments, EventSink events) {
+      this.eventSink = events;
+      // Setup listener that will use this.eventSink to send token status changes
+    }
+
+    @Override
+    public void onCancel(Object arguments) {
+      this.eventSink = null;
+    }
+  }
+
+  // Separate StreamHandler for participant updates
+  private static class ParticipantUpdateStreamHandler implements StreamHandler {
+    private EventSink eventSink;
+
+    @Override
+    public void onListen(Object arguments, EventSink events) {
+      this.eventSink = events;
+    }
+
+    @Override
+    public void onCancel(Object arguments) {
+      this.eventSink = null;
+    }
   }
 
   @Override
