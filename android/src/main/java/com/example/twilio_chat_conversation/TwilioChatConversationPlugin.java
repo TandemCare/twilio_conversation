@@ -26,8 +26,10 @@ public class TwilioChatConversationPlugin implements FlutterPlugin, MethodCallHa
   private MethodChannel channel;
   private EventChannel eventChannel;
   private EventChannel tokenEventChannel;
+  private EventChannel participantsEventChannel;
   private EventChannel.EventSink eventSink;
   private EventChannel.EventSink tokenEventSink;
+  private EventChannel.EventSink participantsEventSink;
 
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
@@ -37,6 +39,8 @@ public class TwilioChatConversationPlugin implements FlutterPlugin, MethodCallHa
     eventChannel.setStreamHandler(this);
     tokenEventChannel = new EventChannel(flutterPluginBinding.getBinaryMessenger(), "twilio_chat_conversation/onTokenStatusChange");
     tokenEventChannel.setStreamHandler(this);
+    participantsEventChannel = new EventChannel(flutterPluginBinding.getBinaryMessenger(), "twilio_chat_conversation/onParticipantUpdate");
+    participantsEventChannel.setStreamHandler(this);
 
     ConversationHandler.flutterPluginBinding = flutterPluginBinding;
   }
@@ -114,12 +118,14 @@ public class TwilioChatConversationPlugin implements FlutterPlugin, MethodCallHa
     channel.setMethodCallHandler(null);
     eventChannel.setStreamHandler(null);
     tokenEventChannel.setStreamHandler(null);
+    participantsEventChannel.setStreamHandler(null);
   }
 
   @Override
   public void onListen(Object arguments, EventSink events) {
     this.eventSink = events;
     this.tokenEventSink = events;
+    this.participantsEventSink = events;
     ConversationHandler conversationHandler = new ConversationHandler();
     conversationHandler.setListener(this);
     conversationHandler.setTokenListener(this);
@@ -129,6 +135,7 @@ public class TwilioChatConversationPlugin implements FlutterPlugin, MethodCallHa
   public void onCancel(Object arguments) {
     eventSink = null;
     tokenEventSink = null;
+    participantsEventSink = null;
   }
 
   @Override
@@ -151,6 +158,14 @@ public class TwilioChatConversationPlugin implements FlutterPlugin, MethodCallHa
     /// Pass the message result back to the Flutter side
     if (this.tokenEventSink != null) {
       this.tokenEventSink.success(message);
+    }
+  }
+
+  @Override
+  public void onParticipantAdded(String conversationSid, String participantIdentity) {
+    /// Pass the message result back to the Flutter side
+    if (this.participantsEventSink != null) {
+      this.participantsEventSink.success(participantIdentity);
     }
   }
 }
