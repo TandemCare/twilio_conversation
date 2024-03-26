@@ -224,7 +224,7 @@ public class ConversationHandler {
 
                     @Override
                     public void onParticipantAdded(Participant participant) {
-                        messageInterface.onParticipantUpdate(participant.getConversation().getSid(), participant.getIdentity();
+                        messageInterface.onParticipantUpdate(participant.getConversation().getSid(), participant.getIdentity());
                     }
 
                     @Override
