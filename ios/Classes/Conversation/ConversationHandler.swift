@@ -38,7 +38,8 @@ class ConversationsHandler: NSObject, TwilioConversationsClientDelegate {
         self.conversationDelegate?.onTypingUpdate(isTyping: false)
     }
 
-    func conversationsClient(_ client: TwilioConversationsClient, participantAdded participant: TCHParticipant, toConversation conversation: TCHConversation) {
+    func conversationsClient(_ client: TwilioConversationsClient, conversation: TCHConversation, participantJoined participant: TCHParticipant) {
+        print("Participant joined")
         self.conversationDelegate?.onParticipantAdded(conversationSid: conversation.sid, participantIdentity: participant.identity)
     }
 
