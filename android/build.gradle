@@ -8,7 +8,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.2.0'
+        classpath 'com.android.tools.build:gradle:8.7.0'
     }
 }
 
@@ -20,18 +20,21 @@ rootProject.allprojects {
 }
 
 apply plugin: 'com.android.library'
-
 android {
-    compileSdkVersion 31
+    namespace 'com.example.twilio_chat_conversation'
+
+    compileSdk 34
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 21
     }
+    ndkVersion '25.1.8937393'
+    
 }
 dependencies {
     implementation 'com.twilio:conversations-android:6.0.0'
@@ -42,5 +45,6 @@ dependencies {
     //implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
     // implementation files('libs/twilio-conversations-android-5.1.1.aar')
     implementation 'com.google.firebase:protolite-well-known-types:18.0.0'
+    implementation 'androidx.core:core-ktx:1.13.1'
 
 }
