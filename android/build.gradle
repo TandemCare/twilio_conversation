@@ -2,6 +2,8 @@ group 'com.example.twilio_chat_conversation'
 version '1.0'
 
 buildscript {
+    ext.kotlin_version = '2.1.21'
+
     repositories {
         google()
         mavenCentral()
@@ -9,6 +11,8 @@ buildscript {
 
     dependencies {
         classpath 'com.android.tools.build:gradle:8.13.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
     }
 }
 
